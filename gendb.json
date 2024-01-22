@@ -1,0 +1,18 @@
+{
+  "product": [
+    {
+      "id": 1,
+      "imgae": "typicode",
+      "name": "lily lumiere",
+      "value": "35.90",
+      "qtd": 2
+    },
+    {
+      "id": 2,
+      "Image": "typicode",
+      "name": "Perfume",
+      "value": "100.90",
+      "qtd": 10
+    }
+  ]
+}
