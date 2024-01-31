@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Alert, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {Image, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ModalNewProduct from "../ModalNewProduct/ModalNewProduct";
 
-const home = '../../assets/Icone/home.png'
-const add = '../../assets/Icone/add.png'
-const list = '../../assets/Icone/list.png'
-const close = '../../assets/Icone/close.png'
+const home = '../../../assets/Icone/home.png'
+const add = '../../../assets/Icone/add.png'
+const list = '../../../assets/Icone/list.png'
+const close = '../../../assets/Icone/close.png'
 
 
 
@@ -27,7 +27,7 @@ export default function Menu () {
                 style={styles.imagem}
                 source={require(home)}
             />
-            <TouchableOpacity 
+            <TouchableOpacity  
                 style={styles.touchButton} 
                 onPress={handleNewProduct}
             >
@@ -95,6 +95,6 @@ const styles = StyleSheet.create ({
         width:30,
         height:30,
         right:10,
-        padding: 10
+        padding: 1
     }
 });

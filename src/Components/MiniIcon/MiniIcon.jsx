@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 
-const add = '../../assets/Icone/MiniIcon/add.webp'
-const delet = '../../assets/Icone/MiniIcon/delete.webp'
-const edit = '../../assets/Icone/MiniIcon/edit.webp'
-const remove = '../../assets/Icone/MiniIcon/remove.webp'
+const add = '../../../assets/Icone/MiniIcon/add.webp'
+const delet = '../../../assets/Icone/MiniIcon/delete.webp'
+const edit = '../../../assets/Icone/MiniIcon/edit.webp'
+const remove = '../../../assets/Icone/MiniIcon/remove.webp'
+
 
 export default function MiniIcon ({handleMoreProduct, handleLessProduct}) {
 

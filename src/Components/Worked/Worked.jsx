@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Product from "../Product/Product";
 
 
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         flex: 5,
         paddingTop:10,
         paddingBottom:10,
-        backgroundColor: '#fff',
+        backgroundColor: '#042B3B',
     },
 
     titulo: {
