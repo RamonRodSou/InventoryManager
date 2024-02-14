@@ -21,13 +21,13 @@ const RegisterNewProduct = () => {
 const Router = () => {
   return (
     <Tab.Navigator initialRouteName="Feed"
-    tabBarOptions={{
-        activeTintColor: 'blue',
-        inactiveTintColor: 'gray', 
-        tabBarStyle: {
-            backgroundColor: 'red', 
-          },
-      }}
+    // tabBarOptions={{
+    //     activeTintColor: 'blue',
+    //     inactiveTintColor: 'gray', 
+    //     tabBarStyle: {
+    //         backgroundColor: 'red', 
+    //       },
+    //   }}
       
       >
         <Tab.Screen 

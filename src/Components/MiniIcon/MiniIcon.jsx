@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     touchButton: {
         padding:3,
         borderWidth: 1,
-        borderColor: '#002266',
+        borderColor: '#ed7e4b',
         borderRadius: 5,
     },
     image: {

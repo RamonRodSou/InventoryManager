@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { View, TextInput, StyleSheet, Text, TouchableOpacity, Alert, Modal, Image} from 'react-native';
-import CameraImg from '../Camera/Camera';
+import ImagePicker from 'react-native-image-picker';
 import postList from '../../service/postList';
-import { url } from '../../service/api';
-import getList from '../../service/getList';
-import { Picker } from '@react-native-picker/picker';
+import CategoryList from './CategoryList';
 
 const close = '../../../assets/Icone/close.png'
 
@@ -15,11 +13,11 @@ const NewProduct = () => {
   const [image, setImage] = useState('')
   const [value, setValue] = useState('')
   const [qtd, setQtd] = useState('')
-  const [categoryChoosen, setCategoryChoosen] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [modalVisible, setModalVisible] = useState(false)
+  const [formSubmitted, setFormSubmitted] = useState(false)
 
-  const categoryData = getList(url.category);
-  const { data: category } = categoryData
+
   
 
   const handleNameChange = (text) => {
@@ -27,16 +25,33 @@ const NewProduct = () => {
   }
 
   const handleImgChange = (photo) => {
-    setImage(photo.uri);
+    const options = {
+      title: 'Escolha uma imagem',
+      storageOptions: {
+          skipBackup: true,
+          path: 'images',
+      },
   };
 
-  const handleOpenCamera = () => {
-    setModalVisible(true);
+  ImagePicker.launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+          console.log('Usuário cancelou a seleção de imagem');
+      } else if (response.error) {
+          console.log('Erro ao selecionar imagem: ', response.error);
+      } else {
+          // Aqui response.uri contém a URI da imagem selecionada
+          setImage(response.uri);
+      }
+  });
   };
 
-  const handleCloseCamera = () => {
-    setModalVisible(false);
-  };
+  // const handleOpenCamera = () => {
+  //   setModalVisible(true);
+  // };
+
+  // const handleCloseCamera = () => {
+  //   setModalVisible(false);
+  // };
 
   const handleValueChange = (text) => {
     setValue(text)
@@ -46,22 +61,31 @@ const NewProduct = () => {
     setQtd(text)
   }
 
-  const handleCategoryChoosen = (text) => {
-    setCategoryChoosen(text)
-  }
+  const handleSelectCategory = (category) => {
+    setSelectedCategory(category);
+};
 
-  const handleSubmit = () => {
-    Alert.alert(`O nome é ${name}, Foto: ${image}, valor:  ${value}, Qtd:  ${qtd}`)
-    
+  const handleSubmit = async () => {
+    setFormSubmitted(true);
+
+    if (!name || !image || !value || !qtd || !selectedCategory) {
+
+      Alert.alert('Todos os campos são obrigatórios.');
+
+    return;
+  }
       const dados = {
         name : name ,
         image : image,
         value : value,
-        qtd : qtd
+        qtd : qtd,
+        selectedCategory : selectedCategory
       }
 
       const urlProduct = url.product
-      postList(urlProduct, dados);
+      postList(urlProduct, dados)
+      Alert.alert(`O nome é ${name}, Foto: ${image}, valor:  ${value}, Qtd:  ${qtd} ,category: ${selectedCategory}`)
+
   }
 
   return (
@@ -73,25 +97,33 @@ const NewProduct = () => {
           placeholder="Digite o nome do produto"
           value={name}
           onChangeText={handleNameChange}
+          keyboardType="name-phone-pad"
+
         />
       </View>
 
-      <View style={styles.container_Input}>
+      {/* <View style={styles.container_Input}>
         <Text style={styles.label}>Foto:</Text>
         <TextInput
           style={styles.input}
           placeholder="Coloque a foto do produto"
           value={image}
           onChangeText={handleImgChange}
+          keyboardType="url"
+
         />
-      </View>
+      </View> */}
       
-      {/* <TouchableOpacity 
-               style={styles.button}
-                onPress={handleOpenCamera}
-            >
-        <Text style={styles.buttonText}>Abrir Câmera</Text>
-      </TouchableOpacity> */}
+      <TouchableOpacity style={styles.container_Input} onPress={handleImgChange}>
+        <Text style={styles.label}>Foto:</Text>
+          <View style={styles.imageButton}>
+              {image ? (
+                  <Image source={{ uri: image }} style={{ width: 100, height: 100 }} />
+              ) : (
+                  <Text style={styles.imageButtonText}>Escolher imagem</Text>
+              )}
+          </View>
+        </TouchableOpacity>
 
       <View style={styles.container_Input}>
         <Text style={styles.label}>Valor:</Text> 
@@ -100,7 +132,7 @@ const NewProduct = () => {
           placeholder="Coloque o preço"
           value={value}
           onChangeText={handleValueChange}
-          keyboardType="image-address"
+          keyboardType="numeric"
           autoCapitalize="none"
         />
       </View>
@@ -111,27 +143,12 @@ const NewProduct = () => {
           placeholder="Coloque a quantidade"
           value={qtd}
           onChangeText={handleQtdChange}
-          keyboardType="image-address"
           autoCapitalize="none"
+          keyboardType="numeric"
         />
       </View>
-      <View style={styles.container_Input}>
-        <Text style={styles.label}>Categoria:</Text>
-          <Picker
-            selectedValue={categoryChoosen}
-            onValueChange={(itemValue, itemIndex) => setCategoryChoosen(itemValue)}
-            
-          >
-            {category.map((category) => (
-              <Picker.Item
-                key={category.id}
-                label={category.nameCategory}
-                value={category.nameCategory}
-              />
-            ))}
-          </Picker>
 
-      </View>
+      <CategoryList onSelectCategory={handleSelectCategory}/>
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Enviar</Text>
@@ -146,13 +163,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    backgroundColor: '#fefefe',
+
   },
   container_Input: {
     width:'100%',
+
   },
   label: {
     fontSize: 16,
     marginBottom: 8,
+    color:'#f77d48'
   },
   input: {
     height: 40,
@@ -163,6 +184,8 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     width: '100%',
     borderRadius: 5,
+    color:'#40cfff'
+
   },
   button: {
     backgroundColor: 'blue',
@@ -196,7 +219,30 @@ close: {
     width:30,
     height:30,
     padding: 1
-}
+},  
+categoryItem: {
+  paddingVertical: 8,
+  paddingHorizontal: 12,
+  borderWidth: 1,
+  borderColor: '#ccc',
+  borderRadius: 5,
+  marginBottom: 8,
+},
+
+imageButton: {
+  borderWidth: 1,
+  borderColor: 'gray',
+  width: '100%',
+  height: 150,
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginBottom: 16,
+  borderRadius: 5,
+},
+imageButtonText: {
+  color: '#40cfff',
+  fontSize: 16,
+},
 
 })
 

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         flex: 5,
         paddingTop:10,
         paddingBottom:10,
-        backgroundColor: '#042B3B',
+        backgroundColor: '#006691',
     },
 
     titulo: {
