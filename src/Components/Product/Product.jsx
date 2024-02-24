@@ -1,36 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import MiniIcon from "../MiniIcon/MiniIcon";
-import getList from "../../service/getList";
-import { url } from "../../service/api";
+
+import { fireBaseDelete, fireBaseGet, fireBaseUpdateQuantity } from "../../FireBaseDB/FireBaseDbProduct";
+import { fireBaseGetCategory } from "../../FireBaseDB/FireBaseDbCategory";
+import EditProduct from "./EditProduct";
+import MiniIconDelete from "../MiniIcon/MiniIconDelete";
 
 export default function Product() {
 
+    const [product, setProduct] = useState([])
+    const [categoryD, setCategoryD] = useState([])
+    const [editingProductId, setEditingProductId] = useState(false)
 
-    const handleMoreProduct = () => {
+    const handleMoreProduct = (id) => {
+        fireBaseUpdateQuantity(id, 1)
     }
 
-    const handleLessProduct = () => {
+    const handleLessProduct = (id) => {
+        fireBaseUpdateQuantity(id, -1)
+
+    }
+    const handleEdit = (id) => {
+        setEditingProductId(id)
+    }
+    const handleDelete = (id) => {
+        fireBaseDelete(id)
     }
 
+    useEffect(() => {
 
-    const productData = getList(url.product);
-    const categoryData = getList(url.category);
+        fireBaseGetCategory(setCategoryD)
+        fireBaseGet(setProduct)
+    }, []);
 
-    const { data: product} = productData;
-    const { data: category} = categoryData;
-
-    const [ name, setName ] = useState('Testando')
-
-    console.log(`Aqui esta os produtos ${product}`)
-    
 
     return (
         <View style={styles.productSec}>
+
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 horizontal={false}>
-                {category.map((category) => (
+                {categoryD.map((category) => (
+
                     <View style={styles.container} key={category.id}>
                         <Text style={styles.title}>{category.nameCategory}</Text>
                         <ScrollView
@@ -40,25 +52,41 @@ export default function Product() {
                             contentContainerStyle={styles.scrollViewContent}
                         >
                             {Array.isArray(product) && product
-                                .filter((product) => product.category === category.nameCategory)
+                                .filter((product) => product.category.nameCategory === category.nameCategory)
                                 .map((product) => (
                                     <View style={styles.product} key={product.id}>
-                                        <Text style={styles.productQTD}>{product.qtd}</Text>
-                                        <Image
-                                            style={styles.imagem}
-                                            source={{ uri: product.image }}
-                                        />
-                                        <Text style={styles.texto}>{product.name}</Text>
-                                        <Text style={styles.texto}>R$:{product.value}</Text>
+                                        <View style={styles.productTop}>
+                                            <MiniIconDelete
+                                                handleDelete={() => handleDelete(product.id)}
+                                            />
+                                            <Text style={styles.productQTD}>{product.qtd}</Text>
+                                        </View>
+                                        <View style={styles.productImgNameValue}>
+                                            <Image
+                                                style={styles.imagem}
+                                                source={{ uri: product.image }}
+                                            />
+                                            <Text style={styles.texto}>{product.name}</Text>
+                                            <Text style={styles.texto}>R$:{product.value}</Text>
+                                        </View>
                                         <MiniIcon
-                                            handleMoreProduct={() => handleMoreProduct()}
-                                            handleLessProduct={() => handleLessProduct()} />
+                                            handleMoreProduct={() => handleMoreProduct(product.id)}
+                                            handleLessProduct={() => handleLessProduct(product.id)}
+                                            handleEdit={() => handleEdit(product.id)}
+                                        />
                                     </View>
                                 ))}
                         </ScrollView>
                     </View>
                 ))}
+
             </ScrollView>
+            {editingProductId && (
+                <EditProduct
+                    productId={editingProductId}
+                    onClose={() => setEditingProductId(null)} // Feche a tela de edição ao salvar ou cancelar
+                />
+            )}
         </View>
     )
 }
@@ -89,18 +117,29 @@ const styles = StyleSheet.create({
         width: 150,
         height: 250
     },
+    productTop:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        marginBottom:2,
 
+    },
+    productImgNameValue:{
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        
+    },
     scrollViewContent: {
         display: 'flex',
         flexDirection: 'row',
         gap: 10,
     },
     productQTD: {
-        position: 'absolute',
-        top: 5,
-        right: 10,
+
         fontWeight: "bold",
-        fontSize: 20,
+        fontSize: 26,
         color: '#ed7e4b',
         zIndex: 2
 
@@ -110,7 +149,7 @@ const styles = StyleSheet.create({
         height: 100
     },
     texto: {
-        fontSize: 20,
+        fontSize: 18,
         color: '#2499c7',
     }
 });

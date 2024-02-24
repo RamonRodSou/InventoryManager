@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Modal, FlatList } from 'react-native';
-import axios from 'axios';
 import Icon from 'react-native-vector-icons/Feather';
+import { fireBaseGetCategory } from '../../FireBaseDB/FireBaseDbCategory';
 
 const CategoryList = ({onSelectCategory}) => {
     const [categories, setCategories] = useState([]);
@@ -9,13 +9,7 @@ const CategoryList = ({onSelectCategory}) => {
     const [selectedCategory, setSelectedCategory] = useState(null);
 
     useEffect(() => {
-        axios.get('https://my-json-server.typicode.com/RamonRodSou/GerenteAppBD/Category/')
-            .then((response) => {
-                setCategories(response.data);
-            })
-            .catch((error) => {
-                console.log('Ocorreu um erro: ', error);
-            });
+        fireBaseGetCategory(setCategories);
     }, []);
 
     const selectCategory = (category) => {
@@ -51,11 +45,11 @@ const CategoryList = ({onSelectCategory}) => {
                            style={styles.modalContent}
                            data={categories}
                            renderItem={({ item }) => (
-                               <TouchableOpacity onPress={() => selectCategory(item)}>
+                               <TouchableOpacity onPress={() => selectCategory(item)} >
                                    <Text style={styles.modalText}>{item.nameCategory}</Text>
                                </TouchableOpacity>
                            )}
-                           keyExtractor={(item) => item.id.toString()}
+                           keyExtractor={(item) => item.id}
                        />
                    </View>
                </View>

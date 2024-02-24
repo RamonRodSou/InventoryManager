@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react'
-import { View, TextInput, StyleSheet, Text, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, TextInput, StyleSheet, Text, TouchableOpacity, Alert } from 'react-native';
 import CategoryList from './CategoryList';
-import { fireBasePost } from '../../FireBaseDB/FireBaseDB';
+import { fireBasePost } from '../../FireBaseDB/FireBaseDbProduct';
 import { ProductContext } from '../../contexts/product';
+import { useFocusEffect } from '@react-navigation/native';
 
 const close = '../../../assets/Icone/close.png'
 
@@ -47,8 +48,9 @@ const NewProduct = () => {
     setQtd(text)
   }
 
-  const handleSelectCategory = (category) => {
-    setCategory(category);
+  const handleSelectCategory = (text) => {
+   
+    setCategory(text)
   };
 
   const handleSubmit = async () => {
@@ -75,6 +77,20 @@ const NewProduct = () => {
     setValue('')
     setCategory('')
   }
+
+  const resetFields = () => {
+    setName('')
+    setImage('')
+    setQtd('')
+    setValue('')
+    setCategory('')
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      resetFields();
+    }, []))
+  
  
   return (
       <View style={styles.container}>
