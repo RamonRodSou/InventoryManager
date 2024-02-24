@@ -8,51 +8,44 @@ const Tab = createBottomTabNavigator();
 
 const HomePage = () => {
     return (
-        <Home/>
+        <Home />
     )
 }
 
 const RegisterNewProduct = () => {
     return (
-        <NewProduct/>
+        <NewProduct />
     )
 }
 
 const Router = () => {
-  return (
-    <Tab.Navigator initialRouteName="Feed"
-    // tabBarOptions={{
-    //     activeTintColor: 'blue',
-    //     inactiveTintColor: 'gray', 
-    //     tabBarStyle: {
-    //         backgroundColor: 'red', 
-    //       },
-    //   }}
-      
-      >
-        <Tab.Screen 
-            name="Home" 
-            component={HomePage} 
-            options={{
-                tabBarLabel: 'Home',
-                tabBarIcon: ({ color, size }) => (
-                    <MaterialCommunityIcons name="home" color={color} size={size} />
-                ),
-            }}
-        />
-        <Tab.Screen 
-            name="Cadastrar" 
-            component={RegisterNewProduct}
-            options={{
-            tabBarLabel: 'New',
-            tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="plus" color={color} size={size} />
-            )
-            }}
-        />
-    </Tab.Navigator>
-  )
+    return (
+        <Tab.Navigator initialRouteName="Feed"
+
+        >
+            <Tab.Screen
+                name="Home"
+                component={HomePage}
+                options={{
+                    tabBarLabel: 'Home',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="home" color={color} size={size} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Cadastrar"
+                component={RegisterNewProduct}
+                options={{
+                    tabBarLabel: 'New',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="plus" color={color} size={size} />
+                    )
+                }}
+            />
+        </Tab.Navigator>
+    )
 }
 
-  
+
 export default Router

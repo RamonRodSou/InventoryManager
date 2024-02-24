@@ -1,22 +1,17 @@
-import { StyleSheet } from 'react-native';
+import React from 'react';
 import Router from './src/Router/Router';
 import { NavigationContainer } from '@react-navigation/native';
+import { ProductProvider } from './src/contexts/product';
+
+
 export default function App() {
   return (
-    // <View style={styles.container}>
-    //   <Home/>
-    // </View>
 
-    <NavigationContainer style={styles.container}>
-      <Router/>
+    <NavigationContainer>
+      <ProductProvider>
+        <Router/>
+      </ProductProvider>
     </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#26beef',
-
-  },
-});

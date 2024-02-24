@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import MiniIcon from "../MiniIcon/MiniIcon";
 import getList from "../../service/getList";
@@ -20,8 +20,11 @@ export default function Product() {
     const { data: product} = productData;
     const { data: category} = categoryData;
 
-    // console.log(`Aqui esta os produtos ${product}`)
+    const [ name, setName ] = useState('Testando')
+
+    console.log(`Aqui esta os produtos ${product}`)
     
+
     return (
         <View style={styles.productSec}>
             <ScrollView
