@@ -1,17 +1,14 @@
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 
-
 const add = '../../../assets/Icone/MiniIcon/add.webp'
 const edit = '../../../assets/Icone/MiniIcon/edit.webp'
 const remove = '../../../assets/Icone/MiniIcon/remove.webp'
 
-
 export default function MiniIcon({ handleMoreProduct, handleLessProduct, handleEdit }) {
 
     return (
-        <View style={styles.container}
-        >
+        <View style={styles.container}>
             <TouchableOpacity
                 style={styles.touchButton}
                 onPress={handleMoreProduct}
@@ -25,7 +22,6 @@ export default function MiniIcon({ handleMoreProduct, handleLessProduct, handleE
             <TouchableOpacity
                 style={styles.touchButton}
                 onPress={handleEdit}
-
             >
                 <Image
                     style={styles.image}
@@ -42,9 +38,6 @@ export default function MiniIcon({ handleMoreProduct, handleLessProduct, handleE
                     source={require(remove)}
                 />
             </TouchableOpacity>
-
-
-
         </View>
     )
 }

@@ -5,7 +5,7 @@ export const ProductContext = createContext ({})
 export function  ProductProvider({children}){
 
     const [name, setName] = useState('')
-    const [image, setImage] = useState('')
+    const [image, setImage] = useState(null)
     const [value, setValue] = useState('')
     const [qtd, setQtd] = useState('')
     const [category, setCategory] = useState('')

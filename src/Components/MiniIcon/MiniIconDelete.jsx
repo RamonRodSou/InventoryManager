@@ -2,14 +2,12 @@ import React from 'react'
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 const delet = '../../../assets/Icone/MiniIcon/delet.webp'
 
-
 export default function MiniIconDelete({handleDelete}) {
     return (
         <View>
             <TouchableOpacity
                 style={styles.touchButton}
                 onPress={handleDelete}
-
             >
                 <Image
                     style={styles.image}
@@ -28,7 +26,6 @@ const styles = StyleSheet.create({
     },
     touchButton: {
         padding: 3,
-
     },
     image: {
         width: 22,

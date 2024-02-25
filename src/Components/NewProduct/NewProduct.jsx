@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react'
-import { View, TextInput, StyleSheet, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, TextInput, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
 import CategoryList from './CategoryList';
 import { fireBasePost } from '../../FireBaseDB/FireBaseDbProduct';
 import { ProductContext } from '../../contexts/product';
 import { useFocusEffect } from '@react-navigation/native';
-
-const close = '../../../assets/Icone/close.png'
+import * as ImagePicker from 'expo-image-picker';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const NewProduct = () => {
 
@@ -14,31 +14,26 @@ const NewProduct = () => {
   const [formSubmitted, setFormSubmitted] = useState(false)
 
   const handleNameChange = (text) => {
-    setName(text)
+    const formattedText = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    setName(formattedText)
   }
 
-  const handleImgChange = (photo) => {
-    setImage(photo)
+  const handleImgChange = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    // const options = {
-    //   title: 'Escolha uma imagem',
-    //   storageOptions: {
-    //     skipBackup: true,
-    //     path: 'images',
-    //   },
-    // };
+    if (permissionResult.granted === false) {
+      Alert.alert('Permissão necessária', 'É necessário conceder permissão para acessar a biblioteca de mídia.');
+      return;
+    }
 
-    // ImagePicker.launchImageLibrary(options, (response) => {
-    //   if (response.didCancel) {
-    //     console.log('Usuário cancelou a seleção de imagem');
-    //   } else if (response.error) {
-    //     console.log('Erro ao selecionar imagem: ', response.error);
-    //   } else {
-    //     // Aqui response.uri contém a URI da imagem selecionada
-    //     setImage(response.uri);
-    //   }
-    // });
-  };
+    const pickerResult = await ImagePicker.launchImageLibraryAsync();
+
+    if (pickerResult.canceled === true) {
+      console.log('Usuário cancelou a seleção de imagem');
+    } else {
+      setImage(pickerResult.assets[0].uri);
+    }
+  }
 
   const handleValueChange = (text) => {
     setValue(text)
@@ -49,7 +44,6 @@ const NewProduct = () => {
   }
 
   const handleSelectCategory = (text) => {
-   
     setCategory(text)
   };
 
@@ -70,29 +64,27 @@ const NewProduct = () => {
       qtd,
       category
     )
-    
+
     setName('')
-    setImage('')
+    setImage(null)
     setQtd('')
     setValue('')
-    setCategory('')
   }
 
   const resetFields = () => {
     setName('')
-    setImage('')
+    setImage(null)
     setQtd('')
     setValue('')
-    setCategory('')
   }
 
   useFocusEffect(
     React.useCallback(() => {
       resetFields();
     }, []))
-  
- 
+
   return (
+    <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
         <View style={styles.container_Input}>
           <Text style={styles.label}>Nome:</Text>
@@ -101,33 +93,19 @@ const NewProduct = () => {
             placeholder="Digite o nome do produto"
             value={name}
             onChangeText={handleNameChange}
-            keyboardType="name-phone-pad"
-
           />
         </View>
 
-        <View style={styles.container_Input}>
+        <TouchableOpacity style={styles.container_Input} onPress={handleImgChange}>
           <Text style={styles.label}>Foto:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Coloque a foto do produto"
-            value={image}
-            onChangeText={handleImgChange}
-            keyboardType="url"
-
-          />
-        </View>
-        {/*
-      <TouchableOpacity style={styles.container_Input} onPress={handleImgChange}>
-        <Text style={styles.label}>Foto:</Text>
           <View style={styles.imageButton}>
-              {image ? (
-                  <Image source={{ uri: image }} style={{ width: 100, height: 100 }} />
-              ) : (
-                  <Text style={styles.imageButtonText}>Escolher imagem</Text>
-              )}
+            {image ? (
+              <Image source={{ uri: image }} style={{ width: '100%', height: '100%' }} />
+            ) : (
+              <Text style={styles.imageButtonText}>Escolher imagem</Text>
+            )}
           </View>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
 
         <View style={styles.container_Input}>
           <Text style={styles.label}>Valor:</Text>
@@ -158,6 +136,7 @@ const NewProduct = () => {
           <Text style={styles.buttonText}>Enviar</Text>
         </TouchableOpacity>
       </View>
+    </KeyboardAwareScrollView>
   )
 }
 

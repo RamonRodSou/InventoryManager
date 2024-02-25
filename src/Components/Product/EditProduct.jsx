@@ -9,9 +9,7 @@ export default function EditProduct({ productId, onClose }) {
   const handleEditProduct = () => {
 
     if (!name || !value || !qtd) {
-
       Alert.alert('Todos os campos são obrigatórios.');
-
       return;
     }
 
@@ -65,8 +63,6 @@ export default function EditProduct({ productId, onClose }) {
                 placeholder="Digite o nome do produto"
                 value={name}
                 onChangeText={handleNameChange}
-                keyboardType="name-phone-pad"
-
               />
             </View>
 
@@ -108,7 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)', // Cor de fundo semi-transparente
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
   modalContent: {
     borderRadius: 10,

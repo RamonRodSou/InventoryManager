@@ -1,12 +1,12 @@
 import React from "react";
 import { View, StyleSheet} from "react-native";
-import Worked from "../Worked/Worked";
+import Product from "../Product/Product";
 
 export default function Home () {
 
     return (
         <View style={styles.container}>
-            <Worked/>
+            <Product/>
         </View>
     )
 }
@@ -14,7 +14,7 @@ export default function Home () {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#26beef',
+      backgroundColor: '#006691',
     },
   });
   

@@ -1,15 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../Components/Home/Home';
 import NewProduct from '../Components/NewProduct/NewProduct';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { ProductContext } from '../contexts/product';
 
 const Tab = createBottomTabNavigator();
 
 const HomePage = () => {
-
-
     return (
         <Home/>
     )
@@ -17,15 +14,13 @@ const HomePage = () => {
 
 const RegisterNewProduct = () => {
     return (
-        <NewProduct />
+        <NewProduct/>
     )
 }
 
 const Router = () => {
     return (
-        <Tab.Navigator initialRouteName="Feed"
-
-        >
+        <Tab.Navigator initialRouteName="Feed">
             <Tab.Screen
                 name="Home"
                 component={HomePage}
@@ -49,6 +44,5 @@ const Router = () => {
         </Tab.Navigator>
     )
 }
-
 
 export default Router

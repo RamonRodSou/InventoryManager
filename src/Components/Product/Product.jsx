@@ -29,20 +29,17 @@ export default function Product() {
     }
 
     useEffect(() => {
-
         fireBaseGetCategory(setCategoryD)
         fireBaseGet(setProduct)
-    }, []);
+    }, [])
 
 
     return (
         <View style={styles.productSec}>
-
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 horizontal={false}>
                 {categoryD.map((category) => (
-
                     <View style={styles.container} key={category.id}>
                         <Text style={styles.title}>{category.nameCategory}</Text>
                         <ScrollView
@@ -84,7 +81,7 @@ export default function Product() {
             {editingProductId && (
                 <EditProduct
                     productId={editingProductId}
-                    onClose={() => setEditingProductId(null)} // Feche a tela de edição ao salvar ou cancelar
+                    onClose={() => setEditingProductId(null)}
                 />
             )}
         </View>
