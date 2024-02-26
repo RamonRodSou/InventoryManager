@@ -3,16 +3,14 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
 
 let firebaseConfig = {
-    apiKey: "AIzaSyDsQYGCDWY8sL19YLNBqP5UbbJMkCHInqw",
-    authDomain: "gerente-5ccc4.firebaseapp.com",
-    projectId: "gerente-5ccc4",
-    storageBucket: "gerente-5ccc4.appspot.com",
-    messagingSenderId: "724763256609",
-    appId: "1:724763256609:web:b023858621cfc231728060",
-    measurementId: "G-X30WLLDTWE"
+    apiKey: "AIzaSyCcQHxMZUZAAfC-o5GP08Cb-xl8-9XiT28",
+    authDomain: "gerente-58e3c.firebaseapp.com",
+    projectId: "gerente-58e3c",
+    storageBucket: "gerente-58e3c.appspot.com",
+    messagingSenderId: "767731023085",
+    appId: "1:767731023085:web:efff6cb51549a3d218e0e4",
+    measurementId: "G-0RENGENHCM"
   };
-
-
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)

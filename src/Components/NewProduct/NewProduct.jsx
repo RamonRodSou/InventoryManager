@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View, TextInput, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
 import CategoryList from './CategoryList';
 import { fireBasePost } from '../../FireBaseDB/FireBaseDbProduct';
@@ -6,11 +6,12 @@ import { ProductContext } from '../../contexts/product';
 import { useFocusEffect } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { getDownloadURL, uploadBytesResumable, ref } from 'firebase/storage'
+import { storage } from '../../service/fireBaseConecction';
 
 const NewProduct = () => {
 
   const { name, image, value, qtd, category, setName, setImage, setValue, setQtd, setCategory } = useContext(ProductContext);
-
   const [formSubmitted, setFormSubmitted] = useState(false)
 
   const handleNameChange = (text) => {
@@ -31,9 +32,46 @@ const NewProduct = () => {
     if (pickerResult.canceled === true) {
       console.log('Usuário cancelou a seleção de imagem');
     } else {
-      setImage(pickerResult.assets[0].uri);
+      const fileUri = pickerResult.assets[0].uri;
+      const fileName = fileUri.substring(fileUri.lastIndexOf('/') + 1);
+      const storageRef = ref(storage, `images/${fileName}`);
+      const uploadTask = uploadBytesResumable(storageRef, await convertToBlob(fileUri));
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Progresso do upload: ${progress}%`);
+        },
+        (error) => {
+          console.error('Erro durante o upload:', error);
+          alert('Erro durante o upload: ' + error.message);
+        },
+        () => {
+          console.log('Upload completo!');
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((downloadURL) => {
+              console.log('URL da imagem após o upload:', downloadURL);
+              setImage(downloadURL);
+            })
+            .catch((error) => {
+              console.error('Erro ao obter a URL da imagem:', error);
+              alert('Erro ao obter a URL da imagem: ' + error.message);
+            });
+        }
+      );
     }
-  }
+  };
+
+  useEffect(() => {
+    console.log('Valor atualizado de image:', image);
+  }, [image]);
+
+  const convertToBlob = async (uri) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    return blob;
+  };
 
   const handleValueChange = (text) => {
     setValue(text)
