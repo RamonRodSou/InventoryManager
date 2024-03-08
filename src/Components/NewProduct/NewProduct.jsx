@@ -1,77 +1,86 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { View, TextInput, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native';
-import CategoryList from './CategoryList';
-import { fireBasePost } from '../../FireBaseDB/FireBaseDbProduct';
-import { ProductContext } from '../../contexts/product';
-import { useFocusEffect } from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import React, { useContext, useEffect } from 'react'
+import { View, TextInput, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native'
+import CategorySelect from '../Category/CategorySelect'
+import { fireBasePost } from '../../FireBaseDB/FireBaseDbProduct'
+import { ProductContext } from '../../contexts/product'
+import { useFocusEffect } from '@react-navigation/native'
+import * as ImagePicker from 'expo-image-picker'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { getDownloadURL, uploadBytesResumable, ref } from 'firebase/storage'
-import { storage } from '../../service/fireBaseConecction';
+import { storage } from '../../service/fireBaseConecction'
+import { cssColors } from '../../Variavel/Css'
+import Btn from '../Btn/Btn'
 
 const NewProduct = () => {
 
-  const { name, image, value, qtd, category, setName, setImage, setValue, setQtd, setCategory } = useContext(ProductContext);
-  const [formSubmitted, setFormSubmitted] = useState(false)
+  const { name, image, value, qtd, category, setName, setImage, setValue, setQtd, setCategory, formSubmitted, setFormSubmitted } = useContext(ProductContext)
 
   const handleNameChange = (text) => {
-    const formattedText = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    const formattedText = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
     setName(formattedText)
   }
 
-  const handleImgChange = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      Alert.alert('Permissão necessária', 'É necessário conceder permissão para acessar a biblioteca de mídia.');
-      return;
+  const handleImgChange = async (isFromGallery) => {
+    let pickerResult;
+    if (isFromGallery) {
+      const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
+      if (permissionResult.granted === false) {
+        Alert.alert('Permissão necessária', 'É necessário conceder permissão para acessar a biblioteca de mídia.')
+        return
+      }
+      pickerResult = await ImagePicker.launchImageLibraryAsync()
+    } else {
+      const permissionResult = await ImagePicker.requestCameraPermissionsAsync()
+      if (permissionResult.granted === false) {
+        Alert.alert('Permissão necessária', 'É necessário conceder permissão para acessar a câmera.')
+        return
+      }
+      pickerResult = await ImagePicker.launchCameraAsync()
     }
 
-    const pickerResult = await ImagePicker.launchImageLibraryAsync();
-
     if (pickerResult.canceled === true) {
-      console.log('Usuário cancelou a seleção de imagem');
+      console.log('Usuário cancelou a seleção de imagem')
     } else {
-      const fileUri = pickerResult.assets[0].uri;
-      const fileName = fileUri.substring(fileUri.lastIndexOf('/') + 1);
-      const storageRef = ref(storage, `images/${fileName}`);
-      const uploadTask = uploadBytesResumable(storageRef, await convertToBlob(fileUri));
+      const fileUri = pickerResult.assets[0].uri
+      const fileName = fileUri.substring(fileUri.lastIndexOf('/') + 1)
+      const storageRef = ref(storage, `images/${fileName}`)
+      const uploadTask = uploadBytesResumable(storageRef, await convertToBlob(fileUri))
 
       uploadTask.on(
         'state_changed',
         (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Progresso do upload: ${progress}%`);
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          console.log(`Progresso do upload: ${progress}%`)
         },
         (error) => {
-          console.error('Erro durante o upload:', error);
-          alert('Erro durante o upload: ' + error.message);
+          console.error('Erro durante o upload:', error)
+          alert('Erro durante o upload: ' + error.message)
         },
         () => {
-          console.log('Upload completo!');
+          console.log('Upload completo!')
           getDownloadURL(uploadTask.snapshot.ref)
             .then((downloadURL) => {
-              console.log('URL da imagem após o upload:', downloadURL);
-              setImage(downloadURL);
+              console.log('URL da imagem após o upload:', downloadURL)
+              setImage(downloadURL)
             })
             .catch((error) => {
-              console.error('Erro ao obter a URL da imagem:', error);
-              alert('Erro ao obter a URL da imagem: ' + error.message);
-            });
+              console.error('Erro ao obter a URL da imagem:', error)
+              alert('Erro ao obter a URL da imagem: ' + error.message)
+            })
         }
-      );
+      )
     }
-  };
+  }
 
   useEffect(() => {
-    console.log('Valor atualizado de image:', image);
-  }, [image]);
+    console.log('Valor atualizado de image:', image)
+  }, [image])
 
   const convertToBlob = async (uri) => {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-    return blob;
-  };
+    const response = await fetch(uri)
+    const blob = await response.blob()
+    return blob
+  }
 
   const handleValueChange = (text) => {
     setValue(text)
@@ -81,18 +90,14 @@ const NewProduct = () => {
     setQtd(text)
   }
 
-  const handleSelectCategory = (text) => {
-    setCategory(text)
-  };
-
   const handleSubmit = async () => {
-    setFormSubmitted(true);
+    setFormSubmitted(true)
 
     if (!name || !image || !value || !qtd || !category) {
 
-      Alert.alert('Todos os campos são obrigatórios.');
+      Alert.alert('Todos os campos são obrigatórios.')
 
-      return;
+      return
     }
 
     fireBasePost(
@@ -118,7 +123,7 @@ const NewProduct = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      resetFields();
+      resetFields()
     }, []))
 
   return (
@@ -129,21 +134,23 @@ const NewProduct = () => {
           <TextInput
             style={styles.input}
             placeholder="Digite o nome do produto"
+            placeholderTextColor={cssColors.placeholder}
             value={name}
             onChangeText={handleNameChange}
           />
         </View>
 
-        <TouchableOpacity style={styles.container_Input} onPress={handleImgChange}>
-          <Text style={styles.label}>Foto:</Text>
-          <View style={styles.imageButton}>
-            {image ? (
-              <Image source={{ uri: image }} style={{ width: '100%', height: '100%' }} />
-            ) : (
-              <Text style={styles.imageButtonText}>Escolher imagem</Text>
-            )}
-          </View>
-        </TouchableOpacity>
+        <View style={styles.containerImg}>
+          {image ? (
+            <Image source={{ uri: image }} style={{ width: '100%', height: '100%' }} />
+
+          ) : (
+            <View style={styles.containerBtnImg}>
+              <Btn name={'Tirar Foto'} OnP={() => handleImgChange(false)}/>
+              <Btn name={'Escolher da Galeria'} OnP={() => handleImgChange(true)}/>
+            </View>
+          )}
+        </View>
 
         <View style={styles.container_Input}>
           <Text style={styles.label}>Valor:</Text>
@@ -152,15 +159,18 @@ const NewProduct = () => {
             placeholder="Coloque o preço"
             value={value}
             onChangeText={handleValueChange}
+            placeholderTextColor={cssColors.placeholder}
             keyboardType="numeric"
             autoCapitalize="none"
           />
         </View>
+
         <View style={styles.container_Input}>
           <Text style={styles.label}>Quantidade:</Text>
           <TextInput
             style={styles.input}
             placeholder="Coloque a quantidade"
+            placeholderTextColor={cssColors.placeholder}
             value={qtd}
             onChangeText={handleQtdChange}
             autoCapitalize="none"
@@ -168,11 +178,8 @@ const NewProduct = () => {
           />
         </View>
 
-        <CategoryList onSelectCategory={handleSelectCategory} />
-
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Enviar</Text>
-        </TouchableOpacity>
+        <CategorySelect />
+        <Btn OnP={handleSubmit} name={'Enviar'}/>
       </View>
     </KeyboardAwareScrollView>
   )
@@ -181,10 +188,11 @@ const NewProduct = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#fefefe',
+    paddingVertical:10,
+    paddingHorizontal: 20,
+    backgroundColor: cssColors.backgroundProduct,
 
   },
   container_Input: {
@@ -194,77 +202,44 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 8,
-    color: '#f77d48'
+    color: cssColors.Label,
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: cssColors.input,
     borderWidth: 1,
     marginBottom: 16,
     paddingLeft: 8,
     paddingRight: 8,
     width: '100%',
     borderRadius: 5,
-    color: '#40cfff'
+    color: cssColors.text
 
-  },
-  button: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    width: '100%',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    textAlign: 'center',
-    width: '100%',
-
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0)',
-  },
-  modalContent: {
-    width: 300,
-    height: 450,
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 10,
-    elevation: 5,
-  },
-  close: {
-    position: 'absolute',
-    width: 30,
-    height: 30,
-    padding: 1
-  },
-  categoryItem: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    marginBottom: 8,
   },
 
   imageButton: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    width: '100%',
-    height: 150,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-    borderRadius: 5,
-  },
-  imageButtonText: {
-    color: '#40cfff',
-    fontSize: 16,
+    backgroundColor: cssColors.orange,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginVertical: 10,
   },
 
+  containerImg:{
+    width: '100%',
+    height: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: cssColors.orange,
+    borderWidth: 1,
+    borderColor: cssColors.input,
+    borderRadius: 5,
+  },
+  containerBtnImg: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap:5,
+  }
 })
 
 export default NewProduct

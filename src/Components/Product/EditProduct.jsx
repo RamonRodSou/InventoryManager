@@ -1,13 +1,16 @@
 import React, { useContext } from 'react';
-import { View, Text, Button, Modal, StyleSheet, TextInput, Alert } from 'react-native';
-import { fireBaseUpdate } from '../../FireBaseDB/FireBaseDbProduct';
+import { View, Text, Modal, StyleSheet, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { fireBaseDelete, fireBaseUpdate } from '../../FireBaseDB/FireBaseDbProduct';
 import { ProductContext } from '../../contexts/product';
+import { cssColors } from '../../Variavel/Css';
+import Btn from '../Btn/Btn';
+import ExcluirConfirm from '../ExcluirConfirm/ExcluirConfirm';
 
 export default function EditProduct({ productId, onClose }) {
-  const { name, value, qtd, setName, setValue, setQtd } = useContext(ProductContext);
+
+  const { name, value, qtd, setName, setValue, setQtd, product, setProduct, confirmDeleteVisible, setConfirmDeleteVisible, setProductToDelete, productToDelete } = useContext(ProductContext);
 
   const handleEditProduct = () => {
-
     if (!name || !value || !qtd) {
       Alert.alert('Todos os campos são obrigatórios.');
       return;
@@ -18,7 +21,7 @@ export default function EditProduct({ productId, onClose }) {
       name,
       value,
       qtd,
-      )
+    )
 
     setName('')
     setQtd('')
@@ -28,7 +31,6 @@ export default function EditProduct({ productId, onClose }) {
   };
 
   const handleClose = (e) => {
-    
     setName('')
     setQtd('')
     setValue('')
@@ -46,7 +48,26 @@ export default function EditProduct({ productId, onClose }) {
   const handleQtdChange = (text) => {
     setQtd(text)
   }
-  
+
+  const handleDelete = (productId) => {
+    setProductToDelete(productId)
+    setConfirmDeleteVisible(true)
+  }
+
+  const confirmDeleteProduct = () => {
+    if (productToDelete) {
+      fireBaseDelete(productToDelete)
+      setProduct(product.filter(prod => prod.id !== productToDelete))
+      handleClose()
+    }
+    cancelDeleteProduct()
+  }
+
+  const cancelDeleteProduct = () => {
+    setConfirmDeleteVisible(false)
+    setProductToDelete(null)
+  }
+
   return (
     <Modal
       animationType="slide"
@@ -54,47 +75,65 @@ export default function EditProduct({ productId, onClose }) {
       visible={true}
       onRequestClose={onClose}
     >
-      <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
-            <View style={styles.container_Input} >
-              <Text style={styles.label}>Nome:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Digite o nome do produto"
-                value={name}
-                onChangeText={handleNameChange}
-              />
-            </View>
 
-            <View style={styles.container_Input}>
-              <Text style={styles.label}>Valor:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Coloque o preço"
-                value={value}
-                onChangeText={handleValueChange}
-                keyboardType="numeric"
-                autoCapitalize="none"
-              />
-            </View>
-            <View style={styles.container_Input}>
-              <Text style={styles.label}>Quantidade:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Coloque a quantidade"
-                value={qtd}
-                onChangeText={handleQtdChange}
-                autoCapitalize="none"
-                keyboardType="numeric"
-              />
-            </View>
-            <View style={styles.buttonsContainer}>
-              <Button title="Save" onPress={handleEditProduct} style={styles.button} />
-              <Button title="Cancel" onPress={handleClose} style={styles.button} />
+      <View style={styles.modalContainer}>
+
+        <View style={styles.modalContent}>
+        <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
+            <Text style={styles.closeButtonText}>X</Text>
+          </TouchableOpacity>
+
+          <View style={styles.container_Input} >
+            <Text style={styles.label}>Nome:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite o nome do produto"
+              placeholderTextColor={cssColors.placeholder}
+              value={name}
+              onChangeText={handleNameChange}
+            />
+          </View>
+
+          <View style={styles.container_Input}>
+            <Text style={styles.label}>Valor:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Coloque o preço"
+              placeholderTextColor={cssColors.placeholder}
+              value={value}
+              onChangeText={handleValueChange}
+              keyboardType="numeric"
+              autoCapitalize="none"
+            />
+          </View>
+          <View style={styles.container_Input}>
+            <Text style={styles.label}>Quantidade:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Coloque a quantidade"
+              placeholderTextColor={cssColors.placeholder}
+              value={qtd}
+              onChangeText={handleQtdChange}
+              autoCapitalize="none"
+              keyboardType="numeric"
+            />
+          </View>
+          <View style={styles.buttonsContainer}>
+            <Btn name={'Salvar'} OnP={handleEditProduct} style={styles.BtnsSyle}/>
+            <Btn name={'Excluir'} OnP={() => handleDelete(productId)} style={styles.BtnsSyle}/>
+
           </View>
         </View>
 
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={confirmDeleteVisible}
+        onRequestClose={() => setConfirmDeleteVisible(false)}
+      >
+        <ExcluirConfirm Msg={'Deseja realmente excluir o produto?'} OnPCancel={cancelDeleteProduct} OnPConfirm={confirmDeleteProduct} />
+      </Modal>
     </Modal>
   );
 };
@@ -111,16 +150,8 @@ const styles = StyleSheet.create({
     padding: 20,
     width: '80%',
     maxHeight: '70%',
-    backgroundColor: '#fff',
+    backgroundColor: cssColors.backgroundProduct,
     justifyContent: 'center'
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#fefefe',
-
   },
   container_Input: {
     width: '100%',
@@ -129,27 +160,47 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 8,
-    color: '#f77d48'
+    color: cssColors.Label,
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: cssColors.input,
     borderWidth: 1,
     marginBottom: 16,
     paddingLeft: 8,
     paddingRight: 8,
     width: '100%',
     borderRadius: 5,
-    color: '#40cfff'
-
+    color: cssColors.text
   },
   buttonsContainer: {
-    gap:10,
-    paddingLeft:10,
-    paddingRight:10,
+    width:'100%',
+    flexDirection:'row',
+    justifyContent:"space-between",
+    alignItems:'center',
+    
+    gap: 10,
   },
-  button: {
+  closeButton: {
+    position: "absolute",
+    top: -10,
+    right: -5,
+    backgroundColor: cssColors.orange,
+    borderRadius: 50,
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  BtnsSyle:{
+  width:'40%',  
   }
+  
 });
 
 

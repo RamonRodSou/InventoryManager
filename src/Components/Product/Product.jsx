@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from "react"
-import { Image, Modal, ScrollView, StyleSheet, Text, View, TouchableOpacity } from "react-native"
+import React, { useContext, useEffect } from "react"
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native"
 import MiniIcon from "../MiniIcon/MiniIcon"
-import { fireBaseDelete, fireBaseGet, fireBaseUpdateQuantity } from "../../FireBaseDB/FireBaseDbProduct"
+import {  fireBaseGet, fireBaseUpdateQuantity } from "../../FireBaseDB/FireBaseDbProduct"
 import { fireBaseGetCategory } from "../../FireBaseDB/FireBaseDbCategory"
 import EditProduct from "./EditProduct"
-import MiniIconDelete from "../MiniIcon/MiniIconDelete"
+import { cssColors } from "../../Variavel/Css"
+import { ProductContext } from "../../contexts/product"
 
 export default function Product() {
 
-    const [product, setProduct] = useState([])
-    const [categoryD, setCategoryD] = useState([])
-    const [editingProductId, setEditingProductId] = useState(false)
-    const [productToDelete, setProductToDelete] = useState(null)
-    const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
+    const {product, setProduct, categoryD, setCategoryD, editingProductId, setEditingProductId} =  useContext(ProductContext)
 
     const handleMoreProduct = (id) => {
         fireBaseUpdateQuantity(id, 1)
@@ -24,24 +21,6 @@ export default function Product() {
 
     const handleEdit = (id) => {
         setEditingProductId(id)
-    }
-
-    const handleDelete = (id) => {
-        setProductToDelete(id)
-        setConfirmDeleteVisible(true)
-    }
-
-    const confirmDeleteProduct = () => {
-        if (productToDelete) {
-            fireBaseDelete(productToDelete)
-            setProduct(product.filter(prod => prod.id !== productToDelete))
-        }
-        cancelDeleteProduct()
-    }
-
-    const cancelDeleteProduct = () => {
-        setConfirmDeleteVisible(false)
-        setProductToDelete(null)
     }
 
     useEffect(() => {
@@ -66,8 +45,9 @@ export default function Product() {
                                 .map((prod) => (
                                     <View style={styles.product} key={prod.id}>
                                         <View style={styles.productTop}>
-                                            <MiniIconDelete handleDelete={() => handleDelete(prod.id)} />
-                                            <Text style={styles.productQTD}>{prod.qtd}</Text>
+                                            <View style={styles.productQTDContainer}>
+                                                <Text style={styles.productQTD}>{prod.qtd}</Text>
+                                            </View>
                                         </View>
                                         <View style={styles.productImgNameValue}>
                                             <Image style={styles.imagem} source={{ uri: prod.image }} />
@@ -85,26 +65,6 @@ export default function Product() {
                     </View>
                 ))}
             </ScrollView>
-            <Modal
-                animationType="slide"  
-                transparent={true}
-                visible={confirmDeleteVisible}
-                onRequestClose={() => setConfirmDeleteVisible(false)}
-            >
-                <View style={styles.confirmDeleteContainer}>
-                    <View style={styles.confirmDeleteContent}>
-                        <Text style={styles.confirmDeleteText}>Deseja realmente excluir o produto?</Text>
-                        <View style={styles.confirmDeleteButtons}>
-                            <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={cancelDeleteProduct}>
-                                <Text style={styles.buttonText}>Cancelar</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={confirmDeleteProduct}>
-                                <Text style={styles.buttonText}>Excluir</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            </Modal>
             {editingProductId && (
                 <EditProduct productId={editingProductId} onClose={() => setEditingProductId(null)} />
             )}
@@ -118,29 +78,32 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 6
+        padding: 2
     },
     title: {
         fontSize: 30,
         marginBottom: 16,
-        color: '#fefefe'
+        color: cssColors.title,
     },
     product: {
         justifyContent: 'space-around',
         alignItems: 'center',
         padding: 10,
-        backgroundColor: '#fff',
+        backgroundColor: cssColors.backgroundProduct,
         borderWidth: 1,
-        borderColor: '#ed7e4b',
+        borderColor: cssColors.borderProduct,
         borderRadius: 10,
         width: 150,
         height: 250
     },
     productTop: {
+        position:"absolute",
+        top: 0,
+        zIndex:1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: '100%',
+        width: '110%',
         marginBottom: 2,
     },
     productImgNameValue: {
@@ -153,54 +116,35 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 10,
     },
+    productQTDContainer:{
+        backgroundColor: cssColors.backgroundCicle,
+        borderRadius: 50,
+        width: 35,
+        height: 35,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    deteteImg:{
+        backgroundColor: cssColors.backgroundCicle,
+        borderRadius: 50,
+        width: 35,
+        height: 35,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     productQTD: {
         fontWeight: "bold",
         fontSize: 26,
-        color: '#ed7e4b',
+        color: cssColors.title,
         zIndex: 2
     },
     imagem: {
-        width: 85,
-        height: 100
+        width: '100%',
+        height: 120
     },
     texto: {
         fontSize: 18,
-        color: '#2499c7',
+        color: cssColors.text,
     },
-    confirmDeleteContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    confirmDeleteContent: {
-        backgroundColor: '#fff',
-        borderRadius: 10,
-        padding: 20,
-    },
-    confirmDeleteText: {
-        fontSize: 18,
-        marginBottom: 20,
-        textAlign: 'center',
-        color: '#333',
-    },
-    confirmDeleteButtons: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-    },
-    cancelButton: {
-        backgroundColor: '#ccc',
-        marginRight: 10,
-    },
-    deleteButton: {
-        backgroundColor: 'red',
-    },
-    button: {
-        padding: 10,
-        borderRadius: 5,
-    },
-    buttonText: {
-        color: 'white',
-        fontSize: 16,
-    },
+
 })

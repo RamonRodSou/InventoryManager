@@ -1,18 +1,21 @@
 import React from 'react'
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
-const delet = '../../../assets/Icone/MiniIcon/delet.webp'
 
-export default function MiniIconDelete({handleDelete}) {
+export default function MiniIconDelete({handleDelete, miniIconStyle, deletImg}) {
+
+     const removeOrange = '../../../assets/Icone/MiniIcon/removeOrange.webp'
+    const removeW = '../../../assets/Icone/MiniIcon/removeW.webp'
+
+
     return (
-        <View>
+        <View style={[styles.container, miniIconStyle]}> 
             <TouchableOpacity
                 style={styles.touchButton}
                 onPress={handleDelete}
             >
                 <Image
-                    style={styles.image}
-                    source={require(delet)}
-                />
+                    style={[styles.image]}
+                    source={deletImg ? require(removeOrange) : require(removeW)} />
             </TouchableOpacity>
         </View>
     )
@@ -20,9 +23,7 @@ export default function MiniIconDelete({handleDelete}) {
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
+
     },
     touchButton: {
         padding: 3,

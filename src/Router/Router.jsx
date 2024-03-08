@@ -1,24 +1,46 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../Components/Home/Home';
 import NewProduct from '../Components/NewProduct/NewProduct';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import CategoryPage from '../Components/Category/CategoryPage';
+import { ProductContext } from '../contexts/product';
+import Galery from '../Components/Galery/Galery';
 
 const Tab = createBottomTabNavigator();
 
 const HomePage = () => {
     return (
-        <Home/>
+        <Home />
     )
 }
 
 const RegisterNewProduct = () => {
     return (
-        <NewProduct/>
+        <NewProduct />
+    )
+}
+
+const RegisterNewCategory = () => {
+    return (
+        <CategoryPage />
+    )
+}
+
+const GaleryTabImg = () => {
+    return (
+        <Galery />
     )
 }
 
 const Router = () => {
+
+    const { setEditCategory } = useContext(ProductContext);
+
+    const CategoryEdit = (state) => {
+        setEditCategory(state)
+    }
+
     return (
         <Tab.Navigator initialRouteName="Feed">
             <Tab.Screen
@@ -32,10 +54,40 @@ const Router = () => {
                 }}
             />
             <Tab.Screen
-                name="Cadastrar"
+                name="Product"
                 component={RegisterNewProduct}
                 options={{
-                    tabBarLabel: 'New',
+                    tabBarLabel: 'New Product',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="plus" color={color} size={size} />
+                    )
+                }}
+                listeners={({ route }) => ({
+                    tabPress: (e) => {
+                        CategoryEdit(false);
+                    },
+                })}
+            />
+            <Tab.Screen
+                name="Category"
+                component={RegisterNewCategory}
+                listeners={({ route }) => ({
+                    tabPress: (e) => {
+                        CategoryEdit(true);
+                    },
+                })}
+                options={{
+                    tabBarLabel: 'Category',
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="plus" color={color} size={size} />
+                    )
+                }}
+            />
+            <Tab.Screen
+                name="Galery"
+                component={GaleryTabImg}
+                options={{
+                    tabBarLabel: 'Galery',
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="plus" color={color} size={size} />
                     )
@@ -44,5 +96,7 @@ const Router = () => {
         </Tab.Navigator>
     )
 }
+
+
 
 export default Router

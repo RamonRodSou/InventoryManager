@@ -1,15 +1,17 @@
 
-import firebase from '../service/fireBaseConecction';
+import firebase from '../service/fireBaseConecction'
 
 export async function fireBasePost(name, image, value, qtd, category) {
   try {
     const quantity = parseInt(qtd, 10)
+    const createdAt = new Date().toISOString()
     await firebase.firestore().collection('product').add({
       name: name,
       image: image,
       value: value,
       qtd: quantity,
-      category: category
+      category: category,
+      createdAt: createdAt
     })
     alert('Registrado com sucesso!')
   } catch (error) {
@@ -28,9 +30,12 @@ export async function fireBaseGet(dataProduct) {
           image: doc.data().image,
           value: doc.data().value,
           qtd: doc.data().qtd,
-          category: doc.data().category
+          category: doc.data().category,
+          createdAt: doc.data().createdAt 
         })
       })
+      allProduct.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      allProduct.reverse()
       dataProduct(allProduct)
     })
   } catch (error) {
@@ -47,7 +52,6 @@ export async function fireBaseUpdate(id, name, value, qtd,) {
       qtd: quantity,
 
     })
-    alert('Produto atualizado com sucesso!')
   } catch (error) {
     alert('Error: ' + error)
   }
@@ -56,7 +60,6 @@ export async function fireBaseUpdate(id, name, value, qtd,) {
 export async function fireBaseDelete(id) {
   try {
     await firebase.firestore().collection('product').doc(id).delete()
-    alert('Produto excluído com sucesso!')
   } catch (error) {
     alert('Error: ' + error)
   }
