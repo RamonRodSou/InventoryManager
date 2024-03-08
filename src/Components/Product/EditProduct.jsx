@@ -6,7 +6,7 @@ import { cssColors } from '../../Variavel/Css';
 import Btn from '../Btn/Btn';
 import ExcluirConfirm from '../ExcluirConfirm/ExcluirConfirm';
 
-export default function EditProduct({ productId, onClose }) {
+export default function EditProduct({ productId, onClose}) {
 
   const { name, value, qtd, setName, setValue, setQtd, product, setProduct, confirmDeleteVisible, setConfirmDeleteVisible, setProductToDelete, productToDelete } = useContext(ProductContext);
 
@@ -24,7 +24,7 @@ export default function EditProduct({ productId, onClose }) {
     )
 
     setName('')
-    setQtd('')
+    setQtd(null)
     setValue('')
     onClose();
 
@@ -32,7 +32,7 @@ export default function EditProduct({ productId, onClose }) {
 
   const handleClose = (e) => {
     setName('')
-    setQtd('')
+    setQtd(null)
     setValue('')
     onClose();
   }
@@ -45,8 +45,8 @@ export default function EditProduct({ productId, onClose }) {
     setValue(text)
   }
 
-  const handleQtdChange = (text) => {
-    setQtd(text)
+  const handleQtdChange = (num) => {
+    setQtd(num)
   }
 
   const handleDelete = (productId) => {
@@ -68,6 +68,7 @@ export default function EditProduct({ productId, onClose }) {
     setProductToDelete(null)
   }
 
+  console.log(name + value + qtd)
   return (
     <Modal
       animationType="slide"
@@ -112,7 +113,7 @@ export default function EditProduct({ productId, onClose }) {
               style={styles.input}
               placeholder="Coloque a quantidade"
               placeholderTextColor={cssColors.placeholder}
-              value={qtd}
+              value={qtd ? qtd.toString() : ''}
               onChangeText={handleQtdChange}
               autoCapitalize="none"
               keyboardType="numeric"
@@ -160,11 +161,11 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 8,
-    color: cssColors.Label,
+    color: cssColors.blue,
   },
   input: {
     height: 40,
-    borderColor: cssColors.input,
+    borderColor: cssColors.backgroundCicle,
     borderWidth: 1,
     marginBottom: 16,
     paddingLeft: 8,
@@ -174,6 +175,7 @@ const styles = StyleSheet.create({
     color: cssColors.text
   },
   buttonsContainer: {
+    
     width:'100%',
     flexDirection:'row',
     justifyContent:"space-between",
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -10,
     right: -5,
-    backgroundColor: cssColors.orange,
+    backgroundColor: cssColors.btn,
     borderRadius: 50,
     width: 30,
     height: 30,

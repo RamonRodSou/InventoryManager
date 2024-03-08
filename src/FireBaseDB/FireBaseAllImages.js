@@ -23,11 +23,11 @@ export async function getAllImages() {
 
   export async function deleteImage(imageUrl) {
     try {
-      const fileName = imageUrl.substring(imageUrl.lastIndexOf('/') + 1)
-      const storageRef = storage.ref()
-      const imageRef = storageRef.child('images/' + fileName);
-
-      await imageRef.delete()
+      const fileName = imageUrl.substring(imageUrl.lastIndexOf('%2F') + 3, imageUrl.lastIndexOf('?')); 
+      const storageRef = storage.ref();
+      const imageRefPath = `images/${fileName}`;
+      const imageRef = storageRef.child(imageRefPath);
+      await imageRef.delete();
       console.log('Imagem excluída com sucesso!')
   } catch (error) {
       console.error('Erro ao excluir imagem:', error)

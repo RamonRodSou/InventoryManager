@@ -1,5 +1,6 @@
 import React from 'react'
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { cssColors } from '../../Variavel/Css'
 
 export default function MiniIconDelete({handleDelete, miniIconStyle, deletImg}) {
 
@@ -23,10 +24,10 @@ export default function MiniIconDelete({handleDelete, miniIconStyle, deletImg}) 
 
 const styles = StyleSheet.create({
     container: {
-
     },
     touchButton: {
         padding: 3,
+
     },
     image: {
         width: 22,

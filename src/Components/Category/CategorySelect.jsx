@@ -5,6 +5,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import Category from '../Category/Category';
 import { ProductContext } from '../../contexts/product';
 import { cssColors } from '../../Variavel/Css';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 const CategorySelect = () => {
@@ -25,7 +26,6 @@ const CategorySelect = () => {
         <View style={styles.container_Input}>
             <View style={styles.categoriesOrNew}>
                 <Text style={styles.label}>Selecionar Categoria: </Text>
-
             </View>
             <TouchableOpacity style={styles.container} onPress={() => setModalVisible(true)}>
                 {!selectedCategory ? (
@@ -51,7 +51,9 @@ const CategorySelect = () => {
                         <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
                             <Text style={styles.closeButtonText}>X</Text>
                         </TouchableOpacity>
-                        <Category />
+                        <KeyboardAwareScrollView>
+                            <Category/>
+                        </KeyboardAwareScrollView>
                     </View>
                 </View>
             </Modal>
@@ -72,18 +74,20 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalCategory: {
-        top: '20%',
+        top: '5%',
         width: '60%',
         backgroundColor: cssColors.backgroundProduct,
         borderRadius: 10,
         padding: 20,
+        marginBottom:90,
 
     },
     categoriesOrNew: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 5
+        marginBottom: 5,
+
     },
     container: {
         flexDirection: 'row',
@@ -96,6 +100,8 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 5,
         justifyContent: 'space-between',
+        backgroundColor: cssColors.backgroundProduct,
+
     },
 
     label: {
@@ -108,7 +114,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: -10,
         right: -5,
-        backgroundColor: cssColors.orange,
+        backgroundColor: cssColors.backgroundCicle,
         borderRadius: 50,
         width: 30,
         height: 30,

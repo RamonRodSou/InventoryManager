@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react'
-import { FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {  Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ProductContext } from '../../contexts/product';
 import { fireBaseDeleteCategory, fireBaseGetCategory } from '../../FireBaseDB/FireBaseDbCategory';
 import { cssColors } from '../../Variavel/Css';
 import ExcluirConfirm from '../ExcluirConfirm/ExcluirConfirm';
 import MiniIconDelete from '../MiniIcon/MiniIconDelete';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const Category = () => {
 
@@ -36,43 +37,41 @@ const Category = () => {
     }, []);
 
     return (
-        <View style={styles.modalContainer}>
-            <FlatList
-                data={categories}
-                renderItem={({ item }) => (
+        <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <View style={styles.modalContainer}>
+                <ScrollView>
+                    {categories.map((item) => (
+                        <View key={item.id} style={styles.selectOrdeleteCategory}>
+                            <TouchableOpacity
+                                style={styles.selectCategory}
+                                onPress={() => chooseCategory(item)} >
+                                <Text style={styles.modalText}>{item.nameCategory}</Text>
+                            </TouchableOpacity>
 
-                    <View style={styles.selectOrdeleteCategory}>
-                        <TouchableOpacity
-                            style={styles.selectCategory}
-                            onPress={() => chooseCategory(item)} >
-                            <Text style={styles.modalText}>{item.nameCategory}</Text>
-                        </TouchableOpacity>
+                            {!editCategory ? (
+                                <>
+                                </>
+                            ) : (
+                                <MiniIconDelete handleDelete={() => {
+                                    setCategoryToDelete(item);
+                                    setConfirmDeleteVisible(true);
+                                }} deletImg={true} />
+                            )}
+                        </View>
+                    ))}
+                </ScrollView>
 
-                        {!editCategory ? (
-                            <>
-                            </>
-                        ) : (
-                            <MiniIconDelete handleDelete={() => {
-                                setCategoryToDelete(item);
-                                setConfirmDeleteVisible(true);
-                            }} deletImg={true} />
-                        )}
-                    </View>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={confirmDeleteVisible}
+                    onRequestClose={() => setConfirmDeleteVisible(false)}
+                >
+                    <ExcluirConfirm Msg={'Deseja realmente excluir a categoria?'} OnPCancel={cancelDeleteCategory} OnPConfirm={confirmDeleteCategory} />
+                </Modal>
+            </View>
+        </KeyboardAwareScrollView>
 
-                )}
-                keyExtractor={(item) => item.id}
-            />
-
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={confirmDeleteVisible}
-                onRequestClose={() => setConfirmDeleteVisible(false)}
-            >
-                <ExcluirConfirm Msg={'Deseja realmente excluir a categoria?'} OnPCancel={cancelDeleteCategory} OnPConfirm={confirmDeleteCategory} />
-
-            </Modal>
-        </View>
     )
 }
 const styles = StyleSheet.create({
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
     modalContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: 'transparent',
 
     },
     selectOrdeleteCategory: {
@@ -89,6 +88,12 @@ const styles = StyleSheet.create({
         gap: 20,
         flexDirection: "row",
         width: '100%',
+        borderColor:cssColors.backgroundCicle,
+        backgroundColor:cssColors.backgroundProduct,
+        borderWidth:1,
+        borderRadius:10,
+        paddingVertical:2,
+        marginBottom:5,
     },
     selectCategory: {
         width: '80%',

@@ -7,7 +7,7 @@ export function  ProductProvider({children}){
     const [name, setName] = useState('')
     const [image, setImage] = useState(null)
     const [value, setValue] = useState('')
-    const [qtd, setQtd] = useState('')
+    const [qtd, setQtd] = useState(null)
     const [category, setCategory] = useState('')
 
     const [categories, setCategories] = useState([]);
@@ -23,6 +23,8 @@ export function  ProductProvider({children}){
     const [editingProductId, setEditingProductId] = useState(false)
     const [productToDelete, setProductToDelete] = useState(null)
 
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredProducts, setFilteredProducts] = useState(product);
 
     const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false);
 
@@ -32,7 +34,8 @@ export function  ProductProvider({children}){
                 categories, setCategories, modalVisible, setModalVisible, selectedCategory, setSelectedCategory,
                 formSubmitted, setFormSubmitted, newCategory, setNewCategory, confirmDeleteVisible, setConfirmDeleteVisible,
                 categoryToDelete, setCategoryToDelete, editCategory, setEditCategory, product, setProduct, categoryD, setCategoryD,
-                editingProductId, setEditingProductId, productToDelete, setProductToDelete
+                editingProductId, setEditingProductId, productToDelete, setProductToDelete, searchTerm, setSearchTerm,
+                filteredProducts, setFilteredProducts
             }}
         >
             {children}

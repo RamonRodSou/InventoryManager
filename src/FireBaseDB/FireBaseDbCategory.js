@@ -8,6 +8,8 @@ export async function fireBasePostCategory(nameCategory) {
       nameCategory: nameCategory,
       createdAt:createdAt
     })
+    console.log('Post successful');
+
   } catch (error) {
     alert('Error: ' + error)
   }
@@ -38,6 +40,8 @@ export async function fireBaseUpdateCategory(categoryId, newName) {
     await firebase.firestore().collection('category').doc(categoryId).update({
       nameCategory: newName,
     })
+    console.log('Update successfully')
+
   } catch (error) {
     alert('Error: ' + error)
   }
@@ -46,6 +50,7 @@ export async function fireBaseUpdateCategory(categoryId, newName) {
 export async function fireBaseDeleteCategory(categoryId) {
   try {
     await firebase.firestore().collection('category').doc(categoryId).delete()
+    console.log('deleted successfully')
   } catch (error) {
     alert('Error: ' + error)
   }

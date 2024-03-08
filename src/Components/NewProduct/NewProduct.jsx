@@ -10,7 +10,7 @@ import { getDownloadURL, uploadBytesResumable, ref } from 'firebase/storage'
 import { storage } from '../../service/fireBaseConecction'
 import { cssColors } from '../../Variavel/Css'
 import Btn from '../Btn/Btn'
-
+import { LinearGradient } from 'expo-linear-gradient';
 const NewProduct = () => {
 
   const { name, image, value, qtd, category, setName, setImage, setValue, setQtd, setCategory, formSubmitted, setFormSubmitted } = useContext(ProductContext)
@@ -110,14 +110,14 @@ const NewProduct = () => {
 
     setName('')
     setImage(null)
-    setQtd('')
+    setQtd(null)
     setValue('')
   }
 
   const resetFields = () => {
     setName('')
     setImage(null)
-    setQtd('')
+    setQtd(null)
     setValue('')
   }
 
@@ -128,59 +128,61 @@ const NewProduct = () => {
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <View style={styles.container}>
-        <View style={styles.container_Input}>
-          <Text style={styles.label}>Nome:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Digite o nome do produto"
-            placeholderTextColor={cssColors.placeholder}
-            value={name}
-            onChangeText={handleNameChange}
-          />
-        </View>
+      <LinearGradient 
+        colors={cssColors.gradient}
+        style={[styles.container, styles.transparentBackground]}>
+          <View style={styles.container_Input}>
+            <Text style={styles.label}>Nome:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite o nome do produto"
+              placeholderTextColor={cssColors.placeholder}
+              value={name}
+              onChangeText={handleNameChange}
+            />
+          </View>
 
-        <View style={styles.containerImg}>
-          {image ? (
-            <Image source={{ uri: image }} style={{ width: '100%', height: '100%' }} />
+          <View style={styles.containerImg}>
+            {image ? (
+              <Image source={{ uri: image }} style={{ width: '100%', height: '100%' }} />
 
-          ) : (
-            <View style={styles.containerBtnImg}>
-              <Btn name={'Tirar Foto'} OnP={() => handleImgChange(false)}/>
-              <Btn name={'Escolher da Galeria'} OnP={() => handleImgChange(true)}/>
-            </View>
-          )}
-        </View>
+            ) : (
+              <View style={styles.containerBtnImg}>
+                <Btn name={'Tirar Foto'} OnP={() => handleImgChange(false)} />
+                <Btn name={'Escolher da Galeria'} OnP={() => handleImgChange(true)} />
+              </View>
+            )}
+          </View>
 
-        <View style={styles.container_Input}>
-          <Text style={styles.label}>Valor:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Coloque o preço"
-            value={value}
-            onChangeText={handleValueChange}
-            placeholderTextColor={cssColors.placeholder}
-            keyboardType="numeric"
-            autoCapitalize="none"
-          />
-        </View>
+          <View style={styles.container_Input}>
+            <Text style={styles.label}>Valor:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite o preço"
+              value={value}
+              onChangeText={handleValueChange}
+              placeholderTextColor={cssColors.placeholder}
+              keyboardType="numeric"
+              autoCapitalize="none"
+            />
+          </View>
 
-        <View style={styles.container_Input}>
-          <Text style={styles.label}>Quantidade:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Coloque a quantidade"
-            placeholderTextColor={cssColors.placeholder}
-            value={qtd}
-            onChangeText={handleQtdChange}
-            autoCapitalize="none"
-            keyboardType="numeric"
-          />
-        </View>
+          <View style={styles.container_Input}>
+            <Text style={styles.label}>Quantidade:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite a quantidade"
+              placeholderTextColor={cssColors.placeholder}
+              value={qtd}
+              onChangeText={handleQtdChange}
+              autoCapitalize="none"
+              keyboardType="numeric"
+            />
+          </View>
 
-        <CategorySelect />
-        <Btn OnP={handleSubmit} name={'Enviar'}/>
-      </View>
+          <CategorySelect />
+          <Btn OnP={handleSubmit} name={'Enviar'} />
+      </LinearGradient>
     </KeyboardAwareScrollView>
   )
 }
@@ -190,10 +192,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical:10,
+    paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: cssColors.backgroundProduct,
+    backgroundColor: cssColors.gradientColors,
 
+  },
+  transparentBackground: {
+    backgroundColor: 'transparent',
   },
   container_Input: {
     width: '100%',
@@ -203,6 +208,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 8,
     color: cssColors.Label,
+    shadowColor:'#000',
+    textShadowRadius:10,
+    shadowOffset:{width:-1,height:9},
+    elevation:8,
   },
   input: {
     height: 40,
@@ -213,7 +222,9 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     width: '100%',
     borderRadius: 5,
-    color: cssColors.text
+    color: cssColors.text,
+    backgroundColor: cssColors.backgroundProduct,
+
 
   },
 
@@ -225,20 +236,20 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 
-  containerImg:{
+  containerImg: {
     width: '100%',
     height: 200,
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: cssColors.orange,
     borderWidth: 1,
     borderColor: cssColors.input,
     borderRadius: 5,
+    backgroundColor: cssColors.backgroundProduct,
   },
   containerBtnImg: {
     alignItems: 'center',
     justifyContent: 'center',
-    gap:5,
+    gap: 5,
   }
 })
 
