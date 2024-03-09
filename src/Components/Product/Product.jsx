@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         borderColor: cssColors.borderProduct,
         borderRadius: 10,
         width: 150,
-        height: 250,
+        height: 220,
     },
     productTop: {
         position: "absolute",
@@ -142,14 +142,15 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     productQTDContainer: {
-        marginTop: 5,
-        marginLeft: 2,
+        marginTop: 2,
+        marginLeft: 1,
         backgroundColor: cssColors.backgroundCicle,
         borderRadius: 50,
-        width: 35,
-        height: 35,
+        maxWidth: 100,
+        maxHeight: 100,
         justifyContent: 'center',
         alignItems: 'center',
+        padding:3,
     },
     deteteImg: {
         backgroundColor: cssColors.backgroundCicle,
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
     },
     productQTD: {
         fontWeight: "bold",
-        fontSize: 26,
+        fontSize: 23,
         color: cssColors.title,
         zIndex: 2
     },

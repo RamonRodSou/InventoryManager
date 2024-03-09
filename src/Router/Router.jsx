@@ -6,10 +6,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CategoryPage from '../Components/Category/CategoryPage';
 import { ProductContext } from '../contexts/product';
 import Galery from '../Components/Galery/Galery';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { cssColors } from '../Variavel/Css';
-import NewProductIcon from './NewProductIcon';
 import Sales from '../Components/Sales/Sales';
+import NewProductIcon from './NewProductIcon';
 
 const Tab = createBottomTabNavigator();
 
@@ -55,7 +55,6 @@ const Router = () => {
                 showLabel: false,
                 tabBarStyle: {
                     margin: 10,
-                    backgroundColor: 'transparent',
                     backgroundColor: cssColors.title,
                     borderRadius: 15,
                     height: 50,

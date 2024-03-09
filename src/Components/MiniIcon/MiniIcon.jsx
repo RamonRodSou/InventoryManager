@@ -47,10 +47,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        marginTop:5,
+        marginTop:1,
     },
     touchButton: {
-        padding: 3,
+        paddingHorizontal: 3,
     },
     image: {
         width: 26,

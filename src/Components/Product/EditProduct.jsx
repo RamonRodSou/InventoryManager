@@ -113,7 +113,7 @@ export default function EditProduct({ productId, onClose}) {
               style={styles.input}
               placeholder="Coloque a quantidade"
               placeholderTextColor={cssColors.placeholder}
-              value={qtd ? qtd.toString() : ''}
+              value={qtd !== null ? qtd.toString() : ''}
               onChangeText={handleQtdChange}
               autoCapitalize="none"
               keyboardType="numeric"
@@ -122,20 +122,20 @@ export default function EditProduct({ productId, onClose}) {
           <View style={styles.buttonsContainer}>
             <Btn name={'Salvar'} OnP={handleEditProduct} style={styles.BtnsSyle}/>
             <Btn name={'Excluir'} OnP={() => handleDelete(productId)} style={styles.BtnsSyle}/>
-
           </View>
         </View>
-
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={confirmDeleteVisible}
+          onRequestClose={() => setConfirmDeleteVisible(false)}
+        >
+            <ExcluirConfirm Msg={'Deseja realmente excluir o produto?'} OnPCancel={cancelDeleteProduct} OnPConfirm={confirmDeleteProduct} />
+  
+        </Modal>
       </View>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={confirmDeleteVisible}
-        onRequestClose={() => setConfirmDeleteVisible(false)}
-      >
-        <ExcluirConfirm Msg={'Deseja realmente excluir o produto?'} OnPCancel={cancelDeleteProduct} OnPConfirm={confirmDeleteProduct} />
-      </Modal>
     </Modal>
+    
   );
 };
 

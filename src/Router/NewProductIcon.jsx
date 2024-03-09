@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { MaterialCommunityIcons } from 'react-native-vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { cssColors } from '../Variavel/Css';
 
-const NewProductIcon = ({ focused, size }) => {
+const NewProductIcon = React.memo(({ focused, size }) => {
   return (
     <View style={[styles.container, focused && styles.containerFocused]}>
       <MaterialCommunityIcons
@@ -13,7 +13,7 @@ const NewProductIcon = ({ focused, size }) => {
       />
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     height: 60, 
     borderRadius: 30, 
     backgroundColor: cssColors.blue,
-
   },
   containerFocused: {
     backgroundColor: cssColors.btn, 
@@ -32,7 +31,6 @@ const styles = StyleSheet.create({
     width: 60, 
     height: 60, 
     borderRadius: 30, 
-
   },
 });
 

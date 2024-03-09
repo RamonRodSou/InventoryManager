@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     container: {
         width: '80%',
         backgroundColor: cssColors.backgroundProduct,
-        borderColor: cssColors.backgroundCicle,
+        borderColor: cssColors.blue,
         paddingHorizontal: 10,
         borderWidth: 1,
         borderRadius: 5,
