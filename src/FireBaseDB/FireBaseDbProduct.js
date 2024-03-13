@@ -43,11 +43,12 @@ export async function fireBaseGet(dataProduct) {
   }
 }
 
-export async function fireBaseUpdate(id, name, value, qtd,) {
+export async function fireBaseUpdate(id, name, image, value, qtd,) {
   try {
     const quantity = parseInt(qtd, 10)
     await firebase.firestore().collection('product').doc(id).update({
       name: name,
+      image:image,
       value: value,
       qtd: quantity,
 

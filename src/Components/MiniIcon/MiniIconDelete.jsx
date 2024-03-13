@@ -1,12 +1,10 @@
 import React from 'react'
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
-import { cssColors } from '../../Variavel/Css'
 
 export default function MiniIconDelete({handleDelete, miniIconStyle, deletImg}) {
 
      const removeOrange = '../../../assets/Icone/MiniIcon/removeOrange.webp'
     const removeW = '../../../assets/Icone/MiniIcon/removeW.webp'
-
 
     return (
         <View style={[styles.container, miniIconStyle]}> 

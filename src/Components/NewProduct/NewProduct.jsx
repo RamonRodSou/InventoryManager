@@ -1,86 +1,23 @@
 import React, { useContext, useEffect } from 'react'
-import { View, TextInput, StyleSheet, Text, TouchableOpacity, Alert, Image } from 'react-native'
+import { View, TextInput, StyleSheet, Text, Alert } from 'react-native'
 import CategorySelect from '../Category/CategorySelect'
 import { fireBasePost } from '../../FireBaseDB/FireBaseDbProduct'
 import { ProductContext } from '../../contexts/product'
 import { useFocusEffect } from '@react-navigation/native'
-import * as ImagePicker from 'expo-image-picker'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { getDownloadURL, uploadBytesResumable, ref } from 'firebase/storage'
-import { storage } from '../../service/fireBaseConecction'
 import { cssColors } from '../../Variavel/Css'
 import Btn from '../Btn/Btn'
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient'
+import ProductImage from '../ProductImage/ProductImage'
 const NewProduct = () => {
 
-  const { name, image, value, qtd, category, setName, setImage, setValue, setQtd, setCategory, formSubmitted, setFormSubmitted } = useContext(ProductContext)
+  const { name, image, value, qtd, category, setName, setImage, setValue, setQtd, setFormSubmitted } = useContext(ProductContext)
 
   const handleNameChange = (text) => {
     const formattedText = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
     setName(formattedText)
   }
 
-  const handleImgChange = async (isFromGallery) => {
-    let pickerResult;
-    if (isFromGallery) {
-      const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
-      if (permissionResult.granted === false) {
-        Alert.alert('Permissão necessária', 'É necessário conceder permissão para acessar a biblioteca de mídia.')
-        return
-      }
-      pickerResult = await ImagePicker.launchImageLibraryAsync()
-    } else {
-      const permissionResult = await ImagePicker.requestCameraPermissionsAsync()
-      if (permissionResult.granted === false) {
-        Alert.alert('Permissão necessária', 'É necessário conceder permissão para acessar a câmera.')
-        return
-      }
-      pickerResult = await ImagePicker.launchCameraAsync()
-    }
-
-    if (pickerResult.canceled === true) {
-      console.log('Usuário cancelou a seleção de imagem')
-    } else {
-      const fileUri = pickerResult.assets[0].uri
-      const fileName = fileUri.substring(fileUri.lastIndexOf('/') + 1)
-      const storageRef = ref(storage, `images/${fileName}`)
-      const uploadTask = uploadBytesResumable(storageRef, await convertToBlob(fileUri))
-
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          console.log(`Progresso do upload: ${progress}%`)
-        },
-        (error) => {
-          console.error('Erro durante o upload:', error)
-          alert('Erro durante o upload: ' + error.message)
-        },
-        () => {
-          console.log('Upload completo!')
-          getDownloadURL(uploadTask.snapshot.ref)
-            .then((downloadURL) => {
-              console.log('URL da imagem após o upload:', downloadURL)
-              setImage(downloadURL)
-            })
-            .catch((error) => {
-              console.error('Erro ao obter a URL da imagem:', error)
-              alert('Erro ao obter a URL da imagem: ' + error.message)
-            })
-        }
-      )
-    }
-  }
-
-  useEffect(() => {
-    console.log('Valor atualizado de image:', image)
-  }, [image])
-
-  const convertToBlob = async (uri) => {
-    const response = await fetch(uri)
-    const blob = await response.blob()
-    return blob
-  }
 
   const handleValueChange = (text) => {
     setValue(text)
@@ -93,7 +30,7 @@ const NewProduct = () => {
   const handleSubmit = async () => {
     setFormSubmitted(true)
 
-    if (!name || !image || !value || !qtd || !category) {
+    if (!name || !value || !qtd || !category) {
 
       Alert.alert('Todos os campos são obrigatórios.')
 
@@ -120,6 +57,9 @@ const NewProduct = () => {
     setQtd(null)
     setValue('')
   }
+  useEffect(() => {
+  }, [image])
+
 
   useFocusEffect(
     React.useCallback(() => {
@@ -142,17 +82,7 @@ const NewProduct = () => {
             />
           </View>
 
-          <View style={styles.containerImg}>
-            {image ? (
-              <Image source={{ uri: image }} style={{ width: '100%', height: '100%' }} />
-
-            ) : (
-              <View style={styles.containerBtnImg}>
-                <Btn name={'Tirar Foto'} OnP={() => handleImgChange(false)} />
-                <Btn name={'Escolher da Galeria'} OnP={() => handleImgChange(true)} />
-              </View>
-            )}
-          </View>
+          <ProductImage setImage={setImage} image={image}/>
 
           <View style={styles.container_Input}>
             <Text style={styles.label}>Valor:</Text>
@@ -173,7 +103,7 @@ const NewProduct = () => {
               style={styles.input}
               placeholder="Digite a quantidade"
               placeholderTextColor={cssColors.placeholder}
-              value={qtd}
+              value={qtd !== null ? qtd.toString() : ''}
               onChangeText={handleQtdChange}
               autoCapitalize="none"
               keyboardType="numeric"
@@ -245,11 +175,6 @@ const styles = StyleSheet.create({
     borderColor: cssColors.input,
     borderRadius: 5,
     backgroundColor: cssColors.backgroundProduct,
-  },
-  containerBtnImg: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 5,
   }
 })
 

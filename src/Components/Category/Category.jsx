@@ -1,40 +1,40 @@
 import React, { useContext, useEffect } from 'react'
-import {  Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ProductContext } from '../../contexts/product';
-import { fireBaseDeleteCategory, fireBaseGetCategory } from '../../FireBaseDB/FireBaseDbCategory';
-import { cssColors } from '../../Variavel/Css';
-import ExcluirConfirm from '../ExcluirConfirm/ExcluirConfirm';
-import MiniIconDelete from '../MiniIcon/MiniIconDelete';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {  Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ProductContext } from '../../contexts/product'
+import { fireBaseDeleteCategory, fireBaseGetCategory } from '../../FireBaseDB/FireBaseDbCategory'
+import { cssColors } from '../../Variavel/Css'
+import ExcluirConfirm from '../ExcluirConfirm/ExcluirConfirm'
+import MiniIconDelete from '../MiniIcon/MiniIconDelete'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const Category = () => {
 
     const { categories, setCategories, setCategory, setSelectedCategory, setModalVisible, setConfirmDeleteVisible,
-        confirmDeleteVisible, setCategoryToDelete, editCategory, categoryToDelete } = useContext(ProductContext);
+        confirmDeleteVisible, setCategoryToDelete, editCategory, categoryToDelete } = useContext(ProductContext)
 
     const chooseCategory = (category) => {
-        setSelectedCategory(category);
-        setModalVisible(false);
+        setSelectedCategory(category)
+        setModalVisible(false)
         setCategory(category)
     }
 
     const confirmDeleteCategory = () => {
         if (categoryToDelete) {
-            fireBaseDeleteCategory(categoryToDelete.id);
-            setCategories(categories.filter(cat => cat.id !== categoryToDelete.id));
+            fireBaseDeleteCategory(categoryToDelete.id)
+            setCategories(categories.filter(cat => cat.id !== categoryToDelete.id))
         }
-        setConfirmDeleteVisible(false);
+        setConfirmDeleteVisible(false)
     }
 
     const cancelDeleteCategory = () => {
-        setCategoryToDelete(null);
-        setConfirmDeleteVisible(false);
+        setCategoryToDelete(null)
+        setConfirmDeleteVisible(false)
     }
 
 
     useEffect(() => {
-        fireBaseGetCategory(setCategories);
-    }, []);
+        fireBaseGetCategory(setCategories)
+    }, [])
 
     return (
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -53,8 +53,8 @@ const Category = () => {
                                 </>
                             ) : (
                                 <MiniIconDelete handleDelete={() => {
-                                    setCategoryToDelete(item);
-                                    setConfirmDeleteVisible(true);
+                                    setCategoryToDelete(item)
+                                    setConfirmDeleteVisible(true)
                                 }} deletImg={true} />
                             )}
                         </View>

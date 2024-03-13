@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import { useFocusEffect } from '@react-navigation/native';
-import Category from '../Category/Category';
-import { ProductContext } from '../../contexts/product';
-import { cssColors } from '../../Variavel/Css';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import React, { useContext } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native'
+import { Feather } from '@expo/vector-icons'
+import { useFocusEffect } from '@react-navigation/native'
+import Category from '../Category/Category'
+import { ProductContext } from '../../contexts/product'
+import { cssColors } from '../../Variavel/Css'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 const CategorySelect = () => {
 
-    const { modalVisible, setModalVisible, selectedCategory, setSelectedCategory } = useContext(ProductContext);
+    const { modalVisible, setModalVisible, selectedCategory, setSelectedCategory } = useContext(ProductContext)
 
     const resetFields = () => {
         setSelectedCategory(null)
@@ -18,7 +18,7 @@ const CategorySelect = () => {
 
     useFocusEffect(
         React.useCallback(() => {
-            resetFields();
+            resetFields()
         }, []))
 
 
@@ -42,7 +42,7 @@ const CategorySelect = () => {
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    setModalVisible(false);
+                    setModalVisible(false)
                 }}
             >
                 <View style={styles.modalContainerFull}>
@@ -59,8 +59,8 @@ const CategorySelect = () => {
             </Modal>
 
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container_Input: {
@@ -126,9 +126,9 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
     },
-});
+})
 
-export default CategorySelect;
+export default CategorySelect
 
 
 

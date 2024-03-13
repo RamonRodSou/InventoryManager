@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
-import { cssColors } from '../../Variavel/Css';
+import React from 'react'
+import { View, TextInput, StyleSheet } from 'react-native'
+import { cssColors } from '../../Variavel/Css'
 
 const SearchBar = ({searchTerm, setSearchTerm}) => {    
 
@@ -17,8 +17,8 @@ const SearchBar = ({searchTerm, setSearchTerm}) => {
                 />
             </View>
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -42,6 +42,6 @@ const styles = StyleSheet.create({
         color: cssColors.text,
         backgroundColor: cssColors.backgroundProduct,
     },
-});
+})
 
-export default SearchBar;
+export default SearchBar

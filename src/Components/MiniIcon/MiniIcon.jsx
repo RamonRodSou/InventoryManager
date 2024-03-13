@@ -1,5 +1,5 @@
-import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import React from "react"
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native"
 
 const add = '../../../assets/Icone/MiniIcon/add.webp'
 const edit = '../../../assets/Icone/MiniIcon/edit.webp'
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
         width: 26,
         height: 26
     },
-});
+})

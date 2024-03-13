@@ -1,35 +1,37 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { deleteImage, getAllImages } from '../../FireBaseDB/FireBaseAllImages'
 import MiniIconDelete from '../MiniIcon/MiniIconDelete'
 import { cssColors } from '../../Variavel/Css'
 import { LinearGradient } from 'expo-linear-gradient'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { ProductContext } from '../../contexts/product'
 
 const Galery = () => {
-    const [imageUrls, setImageUrls] = useState([]);
 
+    const { imageUrls, setImageUrls } = useContext(ProductContext)
+    
     const handleDeleteImage = async (imageUrl) => {
         try {
-            await deleteImage(imageUrl);
-            setImageUrls(imageUrls.filter(url => url !== imageUrl));
+            await deleteImage(imageUrl)
+            setImageUrls(imageUrls.filter(url => url !== imageUrl))
         } catch (error) {
-            console.error('Erro ao excluir imagem:', error);
+            console.error('Erro ao excluir imagem:', error)
         }
-    };
+    }
 
     useEffect(() => {
         async function fetchImages() {
             try {
-                const images = await getAllImages();
-                setImageUrls(images);
+                const images = await getAllImages()
+                setImageUrls(images)
             } catch (error) {
-                console.error('Erro ao buscar imagens:', error);
+                console.error('Erro ao buscar imagens:', error)
             }
         }
 
-        fetchImages();
-    }, []);
+        fetchImages()
+    }, [])
 
     return (
         <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -46,7 +48,7 @@ const Galery = () => {
                 ))}
             </LinearGradient>
         </KeyboardAwareScrollView>
-    );
+    )
 }
 const styles = StyleSheet.create({
     container: {

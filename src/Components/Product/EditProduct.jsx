@@ -1,40 +1,45 @@
-import React, { useContext } from 'react';
-import { View, Text, Modal, StyleSheet, TextInput, Alert, TouchableOpacity } from 'react-native';
-import { fireBaseDelete, fireBaseUpdate } from '../../FireBaseDB/FireBaseDbProduct';
-import { ProductContext } from '../../contexts/product';
-import { cssColors } from '../../Variavel/Css';
-import Btn from '../Btn/Btn';
-import ExcluirConfirm from '../ExcluirConfirm/ExcluirConfirm';
+import React, { useContext } from 'react'
+import { View, Text, Modal, StyleSheet, TextInput, Alert, TouchableOpacity } from 'react-native'
+import { fireBaseDelete, fireBaseUpdate } from '../../FireBaseDB/FireBaseDbProduct'
+import { ProductContext } from '../../contexts/product'
+import { cssColors } from '../../Variavel/Css'
+import Btn from '../Btn/Btn'
+import ExcluirConfirm from '../ExcluirConfirm/ExcluirConfirm'
+import ProductImage from '../ProductImage/ProductImage'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function EditProduct({ productId, onClose}) {
 
-  const { name, value, qtd, setName, setValue, setQtd, product, setProduct, confirmDeleteVisible, setConfirmDeleteVisible, setProductToDelete, productToDelete } = useContext(ProductContext);
-
+  const { name, value, qtd, setName, image, setImage, setValue, setQtd, product, setProduct, confirmDeleteVisible, setConfirmDeleteVisible,
+     setProductToDelete, productToDelete } = useContext(ProductContext)
+    
   const handleEditProduct = () => {
     if (!name || !value || !qtd) {
-      Alert.alert('Todos os campos são obrigatórios.');
-      return;
+      Alert.alert('Todos os campos são obrigatórios.')
+      return
     }
 
     fireBaseUpdate(
       productId,
       name,
+      image,
       value,
       qtd,
     )
 
     setName('')
+    setImage(null)
     setQtd(null)
     setValue('')
-    onClose();
+    onClose()
 
-  };
+  }
 
   const handleClose = (e) => {
     setName('')
     setQtd(null)
     setValue('')
-    onClose();
+    onClose()
   }
 
   const handleNameChange = (text) => {
@@ -68,7 +73,6 @@ export default function EditProduct({ productId, onClose}) {
     setProductToDelete(null)
   }
 
-  console.log(name + value + qtd)
   return (
     <Modal
       animationType="slide"
@@ -78,11 +82,12 @@ export default function EditProduct({ productId, onClose}) {
     >
 
       <View style={styles.modalContainer}>
-
         <View style={styles.modalContent}>
+
         <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
             <Text style={styles.closeButtonText}>X</Text>
-          </TouchableOpacity>
+        </TouchableOpacity>
+        <KeyboardAwareScrollView>
 
           <View style={styles.container_Input} >
             <Text style={styles.label}>Nome:</Text>
@@ -95,11 +100,13 @@ export default function EditProduct({ productId, onClose}) {
             />
           </View>
 
+          <ProductImage setImage={setImage} image={image} borderColor={ cssColors.backgroundCicle}/>
+
           <View style={styles.container_Input}>
             <Text style={styles.label}>Valor:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Coloque o preço"
+              placeholder="Digite o preço"
               placeholderTextColor={cssColors.placeholder}
               value={value}
               onChangeText={handleValueChange}
@@ -107,11 +114,12 @@ export default function EditProduct({ productId, onClose}) {
               autoCapitalize="none"
             />
           </View>
+
           <View style={styles.container_Input}>
             <Text style={styles.label}>Quantidade:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Coloque a quantidade"
+              placeholder="Digite a quantidade"
               placeholderTextColor={cssColors.placeholder}
               value={qtd !== null ? qtd.toString() : ''}
               onChangeText={handleQtdChange}
@@ -119,11 +127,15 @@ export default function EditProduct({ productId, onClose}) {
               keyboardType="numeric"
             />
           </View>
+
           <View style={styles.buttonsContainer}>
             <Btn name={'Salvar'} OnP={handleEditProduct} style={styles.BtnsSyle}/>
             <Btn name={'Excluir'} OnP={() => handleDelete(productId)} style={styles.BtnsSyle}/>
           </View>
+          </KeyboardAwareScrollView>
+
         </View>
+
         <Modal
           animationType="slide"
           transparent={true}
@@ -134,10 +146,11 @@ export default function EditProduct({ productId, onClose}) {
   
         </Modal>
       </View>
+
     </Modal>
     
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   modalContainer: {
@@ -201,8 +214,18 @@ const styles = StyleSheet.create({
   },
   BtnsSyle:{
   width:'40%',  
-  }
+  },
+  containerImg: {
+    width: '100%',
+    height: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: cssColors.input,
+    borderRadius: 5,
+    backgroundColor: cssColors.backgroundProduct,
+  },
   
-});
+})
 
 

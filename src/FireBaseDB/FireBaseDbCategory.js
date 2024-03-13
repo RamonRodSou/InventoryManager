@@ -8,7 +8,7 @@ export async function fireBasePostCategory(nameCategory) {
       nameCategory: nameCategory,
       createdAt:createdAt
     })
-    console.log('Post successful');
+    console.log('Post successful')
 
   } catch (error) {
     alert('Error: ' + error)

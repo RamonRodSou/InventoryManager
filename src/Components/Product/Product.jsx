@@ -1,44 +1,45 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import MiniIcon from "../MiniIcon/MiniIcon";
-import { fireBaseGet, fireBaseUpdateQuantity } from "../../FireBaseDB/FireBaseDbProduct";
-import { fireBaseGetCategory } from "../../FireBaseDB/FireBaseDbCategory";
-import EditProduct from "./EditProduct";
-import { cssColors } from "../../Variavel/Css";
-import { ProductContext } from "../../contexts/product";
-import { LinearGradient } from "expo-linear-gradient";
-import SearchBar from "../SearchBar/SearchBar";
+import React, { useContext, useEffect, useState } from "react"
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native"
+import MiniIcon from "../MiniIcon/MiniIcon"
+import { fireBaseGet, fireBaseUpdateQuantity } from "../../FireBaseDB/FireBaseDbProduct"
+import { fireBaseGetCategory } from "../../FireBaseDB/FireBaseDbCategory"
+import EditProduct from "./EditProduct"
+import { cssColors } from "../../Variavel/Css"
+import { ProductContext } from "../../contexts/product"
+import { LinearGradient } from "expo-linear-gradient"
+import SearchBar from "../SearchBar/SearchBar"
 
 export default function Product() {
-    const { product, setProduct, categoryD, setCategoryD, editingProductId, setEditingProductId, setName, setValue, setQtd,} = useContext(ProductContext);
-    const [filteredProducts, setFilteredProducts] = useState(product);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [isSearchFocused, setIsSearchFocused] = useState(false);
+    const { product, setProduct, categoryD, setCategoryD, editingProductId, setEditingProductId, setName, setImage, setValue, setQtd,} = useContext(ProductContext)
+    const [filteredProducts, setFilteredProducts] = useState(product)
+    const [searchTerm, setSearchTerm] = useState("")
+    const [isSearchFocused, setIsSearchFocused] = useState(false)
 
     const handleMoreProduct = (id) => {
-        fireBaseUpdateQuantity(id, 1);
-    };
+        fireBaseUpdateQuantity(id, 1)
+    }
 
     const handleLessProduct = (id) => {
-        fireBaseUpdateQuantity(id, -1);
-    };
+        fireBaseUpdateQuantity(id, -1)
+    }
 
-    const handleEdit = (id, name, value, qtd) => {
-        setEditingProductId(id, name);
+    const handleEdit = (id, name, image, value, qtd) => {
+        setEditingProductId(id, name)
         setName(name)
+        setImage(image)
         setValue(value)
         setQtd(qtd)
-    };
+    }
 
     useEffect(() => {
-        fireBaseGetCategory(setCategoryD);
-        fireBaseGet(setProduct);
-    }, []);
+        fireBaseGetCategory(setCategoryD)
+        fireBaseGet(setProduct)
+    }, [])
 
     useEffect(() => {
-        const filtered = product.filter((prod) => prod.name.toLowerCase().includes(searchTerm.toLowerCase()));
-        setFilteredProducts(filtered);
-    }, [searchTerm, product]);
+        const filtered = product.filter((prod) => prod.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        setFilteredProducts(filtered)
+    }, [searchTerm, product])
 
     return (
         <LinearGradient colors={cssColors.gradient} style={[styles.productSec, styles.transparentBackground]}>
@@ -72,7 +73,7 @@ export default function Product() {
                                                 <MiniIcon
                                                     handleMoreProduct={() => handleMoreProduct(prod.id)}
                                                     handleLessProduct={() => handleLessProduct(prod.id)}
-                                                    handleEdit={() => handleEdit(prod.id, prod.name, prod.value, prod.qtd)}
+                                                    handleEdit={() => handleEdit(prod.id, prod.name, prod.image ,prod.value, prod.qtd)}
                                                 />
                                             </View>
                                         ))}
@@ -84,7 +85,7 @@ export default function Product() {
             )}
             {editingProductId && <EditProduct productId={editingProductId} onClose={() => setEditingProductId(null)} />}
         </LinearGradient>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
@@ -146,6 +147,8 @@ const styles = StyleSheet.create({
         marginLeft: 1,
         backgroundColor: cssColors.backgroundCicle,
         borderRadius: 50,
+        minWidth:35,
+        minHeight:35,
         maxWidth: 100,
         maxHeight: 100,
         justifyContent: 'center',
@@ -175,4 +178,4 @@ const styles = StyleSheet.create({
         color: cssColors.text,
     },
 
-});
+})

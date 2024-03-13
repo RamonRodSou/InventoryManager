@@ -1,27 +1,27 @@
 import React, { useContext } from 'react'
-import { ProductContext } from '../../contexts/product';
-import { fireBasePostCategory } from '../../FireBaseDB/FireBaseDbCategory';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import Category from './Category';
-import { cssColors } from '../../Variavel/Css';
-import Btn from '../Btn/Btn';
-import { LinearGradient } from 'expo-linear-gradient';
+import { ProductContext } from '../../contexts/product'
+import { fireBasePostCategory } from '../../FireBaseDB/FireBaseDbCategory'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
+import Category from './Category'
+import { cssColors } from '../../Variavel/Css'
+import Btn from '../Btn/Btn'
+import { LinearGradient } from 'expo-linear-gradient'
 
 const CategoryPage = () => {
 
-    const { setFormSubmitted, newCategory, setNewCategory } = useContext(ProductContext);
+    const { setFormSubmitted, newCategory, setNewCategory } = useContext(ProductContext)
 
 
 
     const handleNewCategory = (text) => {
-        const formattedText = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-        setNewCategory(formattedText);
+        const formattedText = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
+        setNewCategory(formattedText)
     }
     const handleSubmitNewCategory = async () => {
-        setFormSubmitted(true);
+        setFormSubmitted(true)
         if (!newCategory) {
-            Alert.alert('O campos é obrigatório para add nova categoria.');
-            return;
+            Alert.alert('O campos é obrigatório para add nova categoria.')
+            return
         }
 
         fireBasePostCategory(
