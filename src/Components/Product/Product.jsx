@@ -8,12 +8,18 @@ import { cssColors } from "../../Variavel/Css"
 import { ProductContext } from "../../contexts/product"
 import { LinearGradient } from "expo-linear-gradient"
 import SearchBar from "../SearchBar/SearchBar"
+import MiniIconImage from "../MiniIcon/MiniIconImage"
+
+const searchW = '../../../assets/Icone/MiniIcon/searchW.webp'
+
 
 export default function Product() {
-    const { product, setProduct, categoryD, setCategoryD, editingProductId, setEditingProductId, setName, setImage, setValue, setQtd,} = useContext(ProductContext)
+    const { product, setProduct, categoryD, setCategoryD, editingProductId, setEditingProductId, setName, setImage,
+        setValue, setQtd, isSearchVisible, setIsSearchVisible } = useContext(ProductContext)
     const [filteredProducts, setFilteredProducts] = useState(product)
-    const [searchTerm, setSearchTerm] = useState("")
+    const [searchTerm, setSearchTerm] = useState('')
     const [isSearchFocused, setIsSearchFocused] = useState(false)
+
 
     const handleMoreProduct = (id) => {
         fireBaseUpdateQuantity(id, 1)
@@ -31,6 +37,12 @@ export default function Product() {
         setQtd(qtd)
     }
 
+    const handleCloseModal = () => {
+        setEditingProductId(null)
+    }
+
+
+
     useEffect(() => {
         fireBaseGetCategory(setCategoryD)
         fireBaseGet(setProduct)
@@ -43,7 +55,18 @@ export default function Product() {
 
     return (
         <LinearGradient colors={cssColors.gradient} style={[styles.productSec, styles.transparentBackground]}>
-            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} onFocus={() => setIsSearchFocused(true)} onBlur={() => setIsSearchFocused(false)} />
+            {isSearchVisible ? (
+                <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} onFocus={() => setIsSearchFocused(true)} onBlur={() => setIsSearchFocused(false)} />
+            ) : (
+                <View style={styles.searchBtn}>
+                    <MiniIconImage
+                        handle={() => setIsSearchVisible(true)}
+                        source={require(searchW)}
+                    />
+                </View>
+
+            )}
+
             {isSearchFocused ? null : (
                 <ScrollView showsVerticalScrollIndicator={false} horizontal={false}>
                     {categoryD.map((category) => (
@@ -73,7 +96,7 @@ export default function Product() {
                                                 <MiniIcon
                                                     handleMoreProduct={() => handleMoreProduct(prod.id)}
                                                     handleLessProduct={() => handleLessProduct(prod.id)}
-                                                    handleEdit={() => handleEdit(prod.id, prod.name, prod.image ,prod.value, prod.qtd)}
+                                                    handleEdit={() => handleEdit(prod.id, prod.name, prod.image, prod.value, prod.qtd)}
                                                 />
                                             </View>
                                         ))}
@@ -83,7 +106,7 @@ export default function Product() {
                     ))}
                 </ScrollView>
             )}
-            {editingProductId && <EditProduct productId={editingProductId} onClose={() => setEditingProductId(null)} />}
+            {editingProductId && <EditProduct productId={editingProductId} onClose={handleCloseModal} />}
         </LinearGradient>
     )
 }
@@ -94,13 +117,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom:40,
+        marginBottom: 40,
     },
     container: {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 2, 
+        padding: 2,
     },
     title: {
         fontSize: 30,
@@ -147,13 +170,13 @@ const styles = StyleSheet.create({
         marginLeft: 1,
         backgroundColor: cssColors.backgroundCicle,
         borderRadius: 50,
-        minWidth:35,
-        minHeight:35,
+        minWidth: 35,
+        minHeight: 35,
         maxWidth: 100,
         maxHeight: 100,
         justifyContent: 'center',
         alignItems: 'center',
-        padding:3,
+        padding: 3,
     },
     deteteImg: {
         backgroundColor: cssColors.backgroundCicle,
@@ -176,6 +199,17 @@ const styles = StyleSheet.create({
     texto: {
         fontSize: 18,
         color: cssColors.text,
+    },
+    searchBtn: {
+        position: "absolute",
+        top: 5,
+        right: 10,
+        backgroundColor: cssColors.backgroundCicle,
+        borderRadius: 50,
+        width: 30,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
 })

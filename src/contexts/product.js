@@ -27,7 +27,9 @@ export function  ProductProvider({children}){
     const [filteredProducts, setFilteredProducts] = useState(product)
 
     const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false)
+    const [confirmDeleteVisibleEdt, setConfirmDeleteVisibleEdt] = useState(false)
     const [imageUrls, setImageUrls] = useState([])
+    const [isSearchVisible, setIsSearchVisible] = useState(false)
 
     return (
         <ProductContext.Provider 
@@ -36,7 +38,8 @@ export function  ProductProvider({children}){
                 formSubmitted, setFormSubmitted, newCategory, setNewCategory, confirmDeleteVisible, setConfirmDeleteVisible,
                 categoryToDelete, setCategoryToDelete, editCategory, setEditCategory, product, setProduct, categoryD, setCategoryD,
                 editingProductId, setEditingProductId, productToDelete, setProductToDelete, searchTerm, setSearchTerm,
-                filteredProducts, setFilteredProducts, imageUrls, setImageUrls
+                filteredProducts, setFilteredProducts, imageUrls, setImageUrls, confirmDeleteVisibleEdt, setConfirmDeleteVisibleEdt,
+                isSearchVisible, setIsSearchVisible
             }}
         >
             {children}

@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       borderWidth: 1,
-      borderColor: cssColors.input,
       borderRadius: 5,
       backgroundColor: cssColors.backgroundProduct,
   },

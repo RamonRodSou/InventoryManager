@@ -11,8 +11,6 @@ const CategoryPage = () => {
 
     const { setFormSubmitted, newCategory, setNewCategory } = useContext(ProductContext)
 
-
-
     const handleNewCategory = (text) => {
         const formattedText = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
         setNewCategory(formattedText)
@@ -29,7 +27,6 @@ const CategoryPage = () => {
         )
         setNewCategory('')
     }
-
 
     return (
 

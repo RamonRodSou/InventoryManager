@@ -78,13 +78,20 @@ const Router = () => {
                         />
                     ),
                 }}
+                listeners={({ route }) => ({
+                    tabPress: (e) => {
+                        CategoryEdit(false)
+                    },
+                })}
             />
+
             <Tab.Screen
                 name="Category"
                 component={RegisterNewCategory}
                 listeners={({ route }) => ({
                     tabPress: (e) => {
-                        CategoryEdit(true);
+                        CategoryEdit(true)
+
                     },
                 })}
                 options={{
@@ -93,10 +100,10 @@ const Router = () => {
                             name="layers"
                             color={focused ? '#40cfff' : color}
                             size={size}
-                            />
-                            ),
-                        }}
-                    />
+                        />
+                    ),
+                }}
+            />
             <Tab.Screen
                 name="Product"
                 component={RegisterNewProduct}

@@ -4,13 +4,15 @@ import { ProductContext } from '../../contexts/product'
 import { fireBaseDeleteCategory, fireBaseGetCategory } from '../../FireBaseDB/FireBaseDbCategory'
 import { cssColors } from '../../Variavel/Css'
 import ExcluirConfirm from '../ExcluirConfirm/ExcluirConfirm'
-import MiniIconDelete from '../MiniIcon/MiniIconDelete'
+import MiniIconImage from '../MiniIcon/MiniIconImage'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+const removeOrange = '../../../assets/Icone/MiniIcon/removeOrange.webp'
 
 const Category = () => {
 
     const { categories, setCategories, setCategory, setSelectedCategory, setModalVisible, setConfirmDeleteVisible,
         confirmDeleteVisible, setCategoryToDelete, editCategory, categoryToDelete } = useContext(ProductContext)
+
 
     const chooseCategory = (category) => {
         setSelectedCategory(category)
@@ -52,10 +54,10 @@ const Category = () => {
                                 <>
                                 </>
                             ) : (
-                                <MiniIconDelete handleDelete={() => {
+                                <MiniIconImage handle={() => {
                                     setCategoryToDelete(item)
                                     setConfirmDeleteVisible(true)
-                                }} deletImg={true} />
+                                }} source={require(removeOrange)} />
                             )}
                         </View>
                     ))}

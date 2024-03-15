@@ -56,7 +56,7 @@ const NewProduct = () => {
     setImage(null)
     setQtd(null)
     setValue('')
-  }
+  } 
   useEffect(() => {
   }, [image])
 
@@ -80,9 +80,13 @@ const NewProduct = () => {
               value={name}
               onChangeText={handleNameChange}
             />
-          </View>
+          </View> 
 
-          <ProductImage setImage={setImage} image={image}/>
+          <ProductImage 
+            setImage={setImage} 
+            image={image}       
+            borderColor={cssColors.input}
+          />
 
           <View style={styles.container_Input}>
             <Text style={styles.label}>Valor:</Text>

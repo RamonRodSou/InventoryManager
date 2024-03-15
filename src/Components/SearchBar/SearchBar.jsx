@@ -1,9 +1,11 @@
-import React from 'react'
-import { View, TextInput, StyleSheet } from 'react-native'
+import React, { useContext } from 'react'
+import { View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { cssColors } from '../../Variavel/Css'
+import { ProductContext } from '../../contexts/product'
 
-const SearchBar = ({searchTerm, setSearchTerm}) => {    
+const SearchBar = ({ searchTerm, setSearchTerm }) => {
 
+    const { isSearchVisible, setIsSearchVisible } = useContext(ProductContext)
     return (
         <View style={styles.container}>
             <View style={styles.searchBar}>
@@ -16,6 +18,10 @@ const SearchBar = ({searchTerm, setSearchTerm}) => {
                     autoCapitalize="none"
                 />
             </View>
+            <TouchableOpacity style={styles.closeButton} onPress={() => setIsSearchVisible(false)}>
+                <Text style={styles.closeButtonText}>X</Text>
+            </TouchableOpacity>
+
         </View>
     )
 }
@@ -27,8 +33,7 @@ const styles = StyleSheet.create({
         borderColor: cssColors.blue,
         paddingHorizontal: 10,
         borderWidth: 1,
-        borderRadius: 5,
-        borderRadius: 20,
+        borderRadius: 10,
     },
     searchBar: {
         paddingHorizontal: 5,
@@ -42,6 +47,22 @@ const styles = StyleSheet.create({
         color: cssColors.text,
         backgroundColor: cssColors.backgroundProduct,
     },
+    closeButton: {
+        position: "absolute",
+        top: 10,
+        right: 5,
+        backgroundColor: cssColors.backgroundCicle ,
+        borderRadius: 50,
+        width: 30,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      closeButtonText: {
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: 'bold',
+      },
 })
 
 export default SearchBar

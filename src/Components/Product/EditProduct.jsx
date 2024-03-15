@@ -10,7 +10,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 export default function EditProduct({ productId, onClose}) {
 
-  const { name, value, qtd, setName, image, setImage, setValue, setQtd, product, setProduct, confirmDeleteVisible, setConfirmDeleteVisible,
+  const { name, value, qtd, setName, image, setImage, setValue, setQtd, product, setProduct, confirmDeleteVisibleEdt, setConfirmDeleteVisibleEdt,
      setProductToDelete, productToDelete } = useContext(ProductContext)
     
   const handleEditProduct = () => {
@@ -56,7 +56,7 @@ export default function EditProduct({ productId, onClose}) {
 
   const handleDelete = (productId) => {
     setProductToDelete(productId)
-    setConfirmDeleteVisible(true)
+    setConfirmDeleteVisibleEdt(true)
   }
 
   const confirmDeleteProduct = () => {
@@ -69,7 +69,7 @@ export default function EditProduct({ productId, onClose}) {
   }
 
   const cancelDeleteProduct = () => {
-    setConfirmDeleteVisible(false)
+    setConfirmDeleteVisibleEdt(false)
     setProductToDelete(null)
   }
 
@@ -139,8 +139,8 @@ export default function EditProduct({ productId, onClose}) {
         <Modal
           animationType="slide"
           transparent={true}
-          visible={confirmDeleteVisible}
-          onRequestClose={() => setConfirmDeleteVisible(false)}
+          visible={confirmDeleteVisibleEdt}
+          onRequestClose={() => setConfirmDeleteVisibleEdt(false)}
         >
             <ExcluirConfirm Msg={'Deseja realmente excluir o produto?'} OnPCancel={cancelDeleteProduct} OnPConfirm={confirmDeleteProduct} />
   

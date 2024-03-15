@@ -1,11 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { deleteImage, getAllImages } from '../../FireBaseDB/FireBaseAllImages'
-import MiniIconDelete from '../MiniIcon/MiniIconDelete'
+import MiniIconImage from '../MiniIcon/MiniIconImage'
 import { cssColors } from '../../Variavel/Css'
 import { LinearGradient } from 'expo-linear-gradient'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { ProductContext } from '../../contexts/product'
+
+const removeW = '../../../assets/Icone/MiniIcon/removeW.webp'
 
 const Galery = () => {
 
@@ -42,7 +44,8 @@ const Galery = () => {
                             <Image style={styles.image} source={{ uri: imageUrl }} />
                         </TouchableOpacity>
                         <View style={styles.excluirImage}>
-                            <MiniIconDelete handleDelete={() => handleDeleteImage(imageUrl)} miniIconStyle={styles.miniIconStyle} />
+                            <MiniIconImage handle={() => handleDeleteImage(imageUrl)}  source={require(removeW)}
+/>
                         </View>
                     </View>
                 ))}
@@ -69,9 +72,6 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 5,
-    },
-    miniIconStyle: {
-
     },
     excluirImage: {
         position: 'absolute',
