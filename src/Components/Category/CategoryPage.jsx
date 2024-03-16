@@ -12,8 +12,13 @@ const CategoryPage = () => {
     const { setFormSubmitted, newCategory, setNewCategory } = useContext(ProductContext)
 
     const handleNewCategory = (text) => {
-        const formattedText = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
-        setNewCategory(formattedText)
+        const words = text.toLowerCase().split(' ')
+        const formattedWords = words.map(word => {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        });
+        const formattedText = formattedWords.join(' ')
+        
+        setNewCategory(formattedText);
     }
     const handleSubmitNewCategory = async () => {
         setFormSubmitted(true)

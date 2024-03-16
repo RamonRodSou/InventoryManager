@@ -8,9 +8,10 @@ import { cssColors } from "../../Variavel/Css"
 import { ProductContext } from "../../contexts/product"
 import { LinearGradient } from "expo-linear-gradient"
 import SearchBar from "../SearchBar/SearchBar"
-import MiniIconImage from "../MiniIcon/MiniIconImage"
 
-const searchW = '../../../assets/Icone/MiniIcon/searchW.webp'
+// Btn Search
+// import MiniIconImage from "../MiniIcon/MiniIconImage"
+// const searchW = '../../../assets/Icone/MiniIcon/searchW.webp'
 
 
 export default function Product() {
@@ -58,12 +59,17 @@ export default function Product() {
             {isSearchVisible ? (
                 <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} onFocus={() => setIsSearchFocused(true)} onBlur={() => setIsSearchFocused(false)} />
             ) : (
-                <View style={styles.searchBtn}>
-                    <MiniIconImage
-                        handle={() => setIsSearchVisible(true)}
-                        source={require(searchW)}
-                    />
-                </View>
+
+                <>
+                </>
+                //Btn Search
+
+                // <View style={styles.searchBtn}>
+                //     <MiniIconImage
+                //         handle={() => setIsSearchVisible(true)}
+                //         source={require(searchW)}
+                //     />
+                // </View> 
 
             )}
 
@@ -117,7 +123,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 40,
     },
     container: {
         flexDirection: 'column',
@@ -143,7 +148,7 @@ const styles = StyleSheet.create({
         borderColor: cssColors.borderProduct,
         borderRadius: 10,
         width: 150,
-        height: 220,
+        height: 250,
     },
     productTop: {
         position: "absolute",
@@ -157,7 +162,7 @@ const styles = StyleSheet.create({
     },
     productImgNameValue: {
         width: '100%',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
     },
     scrollViewContent: {
@@ -194,22 +199,20 @@ const styles = StyleSheet.create({
     },
     imagem: {
         width: '100%',
-        height: 120
+        height: 130
     },
     texto: {
         fontSize: 18,
         color: cssColors.text,
     },
     searchBtn: {
-        position: "absolute",
-        top: 5,
-        right: 10,
+        position: "relative",
         backgroundColor: cssColors.backgroundCicle,
         borderRadius: 50,
         width: 30,
         height: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
     },
 
 })

@@ -8,7 +8,6 @@ import { ProductContext } from '../contexts/product';
 import Galery from '../Components/Galery/Galery';
 import { StyleSheet } from 'react-native';
 import { cssColors } from '../Variavel/Css';
-import Sales from '../Components/Sales/Sales';
 import NewProductIcon from './NewProductIcon';
 
 const Tab = createBottomTabNavigator();
@@ -36,15 +35,13 @@ const GaleryTabImg = () => {
         <Galery />
     )
 }
-const SalesPage = () => {
-    return (
-        <Sales />
-    )
+const Search = () => {
+
 }
 
 const Router = () => {
 
-    const { setEditCategory } = useContext(ProductContext);
+    const { setEditCategory, setIsSearchVisible } = useContext(ProductContext);
     const CategoryEdit = (state) => {
         setEditCategory(state)
     }
@@ -90,7 +87,7 @@ const Router = () => {
                 component={RegisterNewCategory}
                 listeners={({ route }) => ({
                     tabPress: (e) => {
-                        CategoryEdit(true)
+                        CategoryEdit(true) 
 
                     },
                 })}
@@ -133,17 +130,25 @@ const Router = () => {
             />
 
             <Tab.Screen
-                name="Sales"
-                component={SalesPage}
+                name="Search"
+                component={Search}
                 options={{
                     tabBarIcon: ({ color, size, focused }) => (
                         <MaterialCommunityIcons
-                            name="cash-multiple"
+                            name="cloud-search"
                             color={focused ? '#40cfff' : color}
                             size={size}
                         />
+                        
                     )
                 }}
+                listeners={({ route }) => ({
+                    tabPress: (e) => {
+                        e.preventDefault();
+                        setIsSearchVisible(true)
+
+                    },
+                })}
             />
         </Tab.Navigator>
 

@@ -14,8 +14,15 @@ const NewProduct = () => {
   const { name, image, value, qtd, category, setName, setImage, setValue, setQtd, setFormSubmitted } = useContext(ProductContext)
 
   const handleNameChange = (text) => {
-    const formattedText = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
+
+    const words = text.toLowerCase().split(' ');
+    const formattedWords = words.map(word => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    });
+    const formattedText = formattedWords.join(' ')
+
     setName(formattedText)
+
   }
 
 
@@ -56,7 +63,7 @@ const NewProduct = () => {
     setImage(null)
     setQtd(null)
     setValue('')
-  } 
+  }
   useEffect(() => {
   }, [image])
 
@@ -68,54 +75,54 @@ const NewProduct = () => {
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <LinearGradient 
+      <LinearGradient
         colors={cssColors.gradient}
         style={[styles.container, styles.transparentBackground]}>
-          <View style={styles.container_Input}>
-            <Text style={styles.label}>Nome:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite o nome do produto"
-              placeholderTextColor={cssColors.placeholder}
-              value={name}
-              onChangeText={handleNameChange}
-            />
-          </View> 
-
-          <ProductImage 
-            setImage={setImage} 
-            image={image}       
-            borderColor={cssColors.input}
+        <View style={styles.container_Input}>
+          <Text style={styles.label}>Nome:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Digite o nome do produto"
+            placeholderTextColor={cssColors.placeholder}
+            value={name}
+            onChangeText={handleNameChange}
           />
+        </View>
 
-          <View style={styles.container_Input}>
-            <Text style={styles.label}>Valor:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite o preço"
-              value={value}
-              onChangeText={handleValueChange}
-              placeholderTextColor={cssColors.placeholder}
-              keyboardType="numeric"
-              autoCapitalize="none"
-            />
-          </View>
+        <ProductImage
+          setImage={setImage}
+          image={image}
+          borderColor={cssColors.input}
+        />
 
-          <View style={styles.container_Input}>
-            <Text style={styles.label}>Quantidade:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite a quantidade"
-              placeholderTextColor={cssColors.placeholder}
-              value={qtd !== null ? qtd.toString() : ''}
-              onChangeText={handleQtdChange}
-              autoCapitalize="none"
-              keyboardType="numeric"
-            />
-          </View>
+        <View style={styles.container_Input}>
+          <Text style={styles.label}>Valor:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Digite o preço"
+            value={value}
+            onChangeText={handleValueChange}
+            placeholderTextColor={cssColors.placeholder}
+            keyboardType="numeric"
+            autoCapitalize="none"
+          />
+        </View>
 
-          <CategorySelect />
-          <Btn OnP={handleSubmit} name={'Enviar'} />
+        <View style={styles.container_Input}>
+          <Text style={styles.label}>Quantidade:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Digite a quantidade"
+            placeholderTextColor={cssColors.placeholder}
+            value={qtd !== null ? qtd.toString() : ''}
+            onChangeText={handleQtdChange}
+            autoCapitalize="none"
+            keyboardType="numeric"
+          />
+        </View>
+
+        <CategorySelect />
+        <Btn OnP={handleSubmit} name={'Enviar'} />
       </LinearGradient>
     </KeyboardAwareScrollView>
   )
@@ -142,10 +149,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 8,
     color: cssColors.Label,
-    shadowColor:'#000',
-    textShadowRadius:10,
-    shadowOffset:{width:-1,height:9},
-    elevation:8,
+    shadowColor: '#000',
+    textShadowRadius: 10,
+    shadowOffset: { width: -1, height: 9 },
+    elevation: 8,
   },
   input: {
     height: 40,

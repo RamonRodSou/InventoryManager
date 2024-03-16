@@ -13,7 +13,6 @@ export default function App() {
           <Router />
         </View>
       </ProductProvider>
-
     </NavigationContainer>
   );
 }
@@ -28,7 +27,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: cssColors.background,
-    marginTop: 40,
+    // marginTop: 40,
     paddingBottom: 5,
   },
 
