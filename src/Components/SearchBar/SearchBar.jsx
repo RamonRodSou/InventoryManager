@@ -6,6 +6,7 @@ import { ProductContext } from '../../contexts/product'
 const SearchBar = ({ searchTerm, setSearchTerm }) => {
 
     const { isSearchVisible, setIsSearchVisible } = useContext(ProductContext)
+
     return (
         <View style={styles.container}>
             <View style={styles.searchBar}>

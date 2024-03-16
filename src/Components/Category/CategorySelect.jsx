@@ -21,7 +21,6 @@ const CategorySelect = () => {
             resetFields()
         }, []))
 
-
     return (
         <View style={styles.container_Input}>
             <View style={styles.categoriesOrNew}>
@@ -52,7 +51,7 @@ const CategorySelect = () => {
                             <Text style={styles.closeButtonText}>X</Text>
                         </TouchableOpacity>
                         <KeyboardAwareScrollView>
-                            <Category/>
+                            <Category />
                         </KeyboardAwareScrollView>
                     </View>
                 </View>
@@ -79,7 +78,7 @@ const styles = StyleSheet.create({
         backgroundColor: cssColors.backgroundProduct,
         borderRadius: 10,
         padding: 20,
-        marginBottom:90,
+        marginBottom: 90,
 
     },
     categoriesOrNew: {

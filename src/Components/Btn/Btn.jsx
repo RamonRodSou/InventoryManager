@@ -2,7 +2,6 @@ import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { cssColors } from '../../Variavel/Css'
 
-
 const Btn = ({ name, OnP, style }) => {
     return (
         <TouchableOpacity style={[styles.button, style]} onPress={OnP}>

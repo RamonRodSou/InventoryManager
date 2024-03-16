@@ -1,8 +1,8 @@
 import { createContext, useState } from "react"
 
-export const ProductContext = createContext ({})
+export const ProductContext = createContext({})
 
-export function  ProductProvider({children}){
+export function ProductProvider({ children }) {
 
     const [name, setName] = useState('')
     const [image, setImage] = useState(null)
@@ -32,8 +32,9 @@ export function  ProductProvider({children}){
     const [isSearchVisible, setIsSearchVisible] = useState(false)
 
     return (
-        <ProductContext.Provider 
-            value={{name, image, value, qtd, category, setName, setImage, setValue, setQtd, setCategory,
+        <ProductContext.Provider
+            value={{
+                name, image, value, qtd, category, setName, setImage, setValue, setQtd, setCategory,
                 categories, setCategories, modalVisible, setModalVisible, selectedCategory, setSelectedCategory,
                 formSubmitted, setFormSubmitted, newCategory, setNewCategory, confirmDeleteVisible, setConfirmDeleteVisible,
                 categoryToDelete, setCategoryToDelete, editCategory, setEditCategory, product, setProduct, categoryD, setCategoryD,

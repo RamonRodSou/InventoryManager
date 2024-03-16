@@ -8,11 +8,11 @@ import ExcluirConfirm from '../ExcluirConfirm/ExcluirConfirm'
 import ProductImage from '../ProductImage/ProductImage'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-export default function EditProduct({ productId, onClose}) {
+export default function EditProduct({ productId, onClose }) {
 
   const { name, value, qtd, setName, image, setImage, setValue, setQtd, product, setProduct, confirmDeleteVisibleEdt, setConfirmDeleteVisibleEdt,
-     setProductToDelete, productToDelete } = useContext(ProductContext)
-    
+    setProductToDelete, productToDelete } = useContext(ProductContext)
+
   const handleEditProduct = () => {
     if (!name || !value || !qtd) {
       Alert.alert('Todos os campos são obrigatórios.')
@@ -32,7 +32,6 @@ export default function EditProduct({ productId, onClose}) {
     setQtd(null)
     setValue('')
     onClose()
-
   }
 
   const handleClose = (e) => {
@@ -80,60 +79,58 @@ export default function EditProduct({ productId, onClose}) {
       visible={true}
       onRequestClose={onClose}
     >
-
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
 
-        <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
+          <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
             <Text style={styles.closeButtonText}>X</Text>
-        </TouchableOpacity>
-        <KeyboardAwareScrollView>
+          </TouchableOpacity>
+          <KeyboardAwareScrollView>
 
-          <View style={styles.container_Input} >
-            <Text style={styles.label}>Nome:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite o nome do produto"
-              placeholderTextColor={cssColors.placeholder}
-              value={name}
-              onChangeText={handleNameChange}
-            />
-          </View>
+            <View style={styles.container_Input} >
+              <Text style={styles.label}>Nome:</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Digite o nome do produto"
+                placeholderTextColor={cssColors.placeholder}
+                value={name}
+                onChangeText={handleNameChange}
+              />
+            </View>
 
-          <ProductImage setImage={setImage} image={image} borderColor={ cssColors.backgroundCicle}/>
+            <ProductImage setImage={setImage} image={image} borderColor={cssColors.backgroundCicle} />
 
-          <View style={styles.container_Input}>
-            <Text style={styles.label}>Valor:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite o preço"
-              placeholderTextColor={cssColors.placeholder}
-              value={value}
-              onChangeText={handleValueChange}
-              keyboardType="numeric"
-              autoCapitalize="none"
-            />
-          </View>
+            <View style={styles.container_Input}>
+              <Text style={styles.label}>Valor:</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Digite o preço"
+                placeholderTextColor={cssColors.placeholder}
+                value={value}
+                onChangeText={handleValueChange}
+                keyboardType="numeric"
+                autoCapitalize="none"
+              />
+            </View>
 
-          <View style={styles.container_Input}>
-            <Text style={styles.label}>Quantidade:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite a quantidade"
-              placeholderTextColor={cssColors.placeholder}
-              value={qtd !== null ? qtd.toString() : ''}
-              onChangeText={handleQtdChange}
-              autoCapitalize="none"
-              keyboardType="numeric"
-            />
-          </View>
+            <View style={styles.container_Input}>
+              <Text style={styles.label}>Quantidade:</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Digite a quantidade"
+                placeholderTextColor={cssColors.placeholder}
+                value={qtd !== null ? qtd.toString() : ''}
+                onChangeText={handleQtdChange}
+                autoCapitalize="none"
+                keyboardType="numeric"
+              />
+            </View>
 
-          <View style={styles.buttonsContainer}>
-            <Btn name={'Salvar'} OnP={handleEditProduct} style={styles.BtnsSyle}/>
-            <Btn name={'Excluir'} OnP={() => handleDelete(productId)} style={styles.BtnsSyle}/>
-          </View>
+            <View style={styles.buttonsContainer}>
+              <Btn name={'Salvar'} OnP={handleEditProduct} style={styles.BtnsSyle} />
+              <Btn name={'Excluir'} OnP={() => handleDelete(productId)} style={styles.BtnsSyle} />
+            </View>
           </KeyboardAwareScrollView>
-
         </View>
 
         <Modal
@@ -142,13 +139,12 @@ export default function EditProduct({ productId, onClose}) {
           visible={confirmDeleteVisibleEdt}
           onRequestClose={() => setConfirmDeleteVisibleEdt(false)}
         >
-            <ExcluirConfirm Msg={'Deseja realmente excluir o produto?'} OnPCancel={cancelDeleteProduct} OnPConfirm={confirmDeleteProduct} />
-  
+          <ExcluirConfirm Msg={'Deseja realmente excluir o produto?'} OnPCancel={cancelDeleteProduct} OnPConfirm={confirmDeleteProduct} />
+
         </Modal>
       </View>
-
     </Modal>
-    
+
   )
 }
 
@@ -188,12 +184,12 @@ const styles = StyleSheet.create({
     color: cssColors.text
   },
   buttonsContainer: {
-    
-    width:'100%',
-    flexDirection:'row',
-    justifyContent:"space-between",
-    alignItems:'center',
-    
+
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: "space-between",
+    alignItems: 'center',
+
     gap: 10,
   },
   closeButton: {
@@ -212,8 +208,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  BtnsSyle:{
-  width:'40%',  
+  BtnsSyle: {
+    width: '40%',
   },
   containerImg: {
     width: '100%',
@@ -225,7 +221,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: cssColors.backgroundProduct,
   },
-  
+
 })
 
 

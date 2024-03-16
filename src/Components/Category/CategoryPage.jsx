@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { ProductContext } from '../../contexts/product'
 import { fireBasePostCategory } from '../../FireBaseDB/FireBaseDbCategory'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Alert, StyleSheet, Text, TextInput, View } from 'react-native'
 import Category from './Category'
 import { cssColors } from '../../Variavel/Css'
 import Btn from '../Btn/Btn'
@@ -17,7 +17,7 @@ const CategoryPage = () => {
             return word.charAt(0).toUpperCase() + word.slice(1);
         });
         const formattedText = formattedWords.join(' ')
-        
+
         setNewCategory(formattedText);
     }
     const handleSubmitNewCategory = async () => {
@@ -38,7 +38,7 @@ const CategoryPage = () => {
         <LinearGradient
             colors={cssColors.gradientColors}
             style={[styles.container, styles.transparentBackground]}>
-                <Category />
+            <Category />
 
             <View style={styles.newCategoryContainer}>
                 <Text style={styles.newCategoryText}>Nova Category</Text>

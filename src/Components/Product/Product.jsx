@@ -8,19 +8,15 @@ import { cssColors } from "../../Variavel/Css"
 import { ProductContext } from "../../contexts/product"
 import { LinearGradient } from "expo-linear-gradient"
 import SearchBar from "../SearchBar/SearchBar"
-
-// Btn Search
-// import MiniIconImage from "../MiniIcon/MiniIconImage"
-// const searchW = '../../../assets/Icone/MiniIcon/searchW.webp'
-
+import { useFocusEffect } from "@react-navigation/native"
 
 export default function Product() {
+
     const { product, setProduct, categoryD, setCategoryD, editingProductId, setEditingProductId, setName, setImage,
         setValue, setQtd, isSearchVisible, setIsSearchVisible } = useContext(ProductContext)
     const [filteredProducts, setFilteredProducts] = useState(product)
     const [searchTerm, setSearchTerm] = useState('')
     const [isSearchFocused, setIsSearchFocused] = useState(false)
-
 
     const handleMoreProduct = (id) => {
         fireBaseUpdateQuantity(id, 1)
@@ -42,7 +38,9 @@ export default function Product() {
         setEditingProductId(null)
     }
 
-
+    const resetFields = () => {
+        setSearchTerm('')
+    }
 
     useEffect(() => {
         fireBaseGetCategory(setCategoryD)
@@ -51,26 +49,21 @@ export default function Product() {
 
     useEffect(() => {
         const filtered = product.filter((prod) => prod.name.toLowerCase().includes(searchTerm.toLowerCase()))
-        setFilteredProducts(filtered)
+        setFilteredProducts(filtered);
     }, [searchTerm, product])
 
+    useFocusEffect(
+        React.useCallback(() => {
+          resetFields()
+        }, []))
+    
     return (
         <LinearGradient colors={cssColors.gradient} style={[styles.productSec, styles.transparentBackground]}>
             {isSearchVisible ? (
                 <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} onFocus={() => setIsSearchFocused(true)} onBlur={() => setIsSearchFocused(false)} />
             ) : (
-
                 <>
                 </>
-                //Btn Search
-
-                // <View style={styles.searchBtn}>
-                //     <MiniIconImage
-                //         handle={() => setIsSearchVisible(true)}
-                //         source={require(searchW)}
-                //     />
-                // </View> 
-
             )}
 
             {isSearchFocused ? null : (

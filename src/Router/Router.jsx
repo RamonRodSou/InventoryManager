@@ -35,9 +35,7 @@ const GaleryTabImg = () => {
         <Galery />
     )
 }
-const Search = () => {
-
-}
+const Search = () => {}
 
 const Router = () => {
 
@@ -87,8 +85,8 @@ const Router = () => {
                 component={RegisterNewCategory}
                 listeners={({ route }) => ({
                     tabPress: (e) => {
-                        CategoryEdit(true) 
-
+                        CategoryEdit(true)
+                        setIsSearchVisible(false)
                     },
                 })}
                 options={{
@@ -111,7 +109,8 @@ const Router = () => {
                 }}
                 listeners={({ route }) => ({
                     tabPress: (e) => {
-                        CategoryEdit(false);
+                        CategoryEdit(false)
+                        setIsSearchVisible(false)
                     },
                 })}
             />
@@ -127,6 +126,12 @@ const Router = () => {
                         />
                     )
                 }}
+                listeners={({ route }) => ({
+                    tabPress: (e) => {
+                        CategoryEdit(false)
+                        setIsSearchVisible(false)
+                    },
+                })}
             />
 
             <Tab.Screen
@@ -139,14 +144,14 @@ const Router = () => {
                             color={focused ? '#40cfff' : color}
                             size={size}
                         />
-                        
+
                     )
                 }}
-                listeners={({ route }) => ({
+                listeners={({ route, navigation }) => ({
                     tabPress: (e) => {
-                        e.preventDefault();
+                        e.preventDefault()
                         setIsSearchVisible(true)
-
+                        navigation.navigate('Home')
                     },
                 })}
             />

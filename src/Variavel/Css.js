@@ -19,8 +19,8 @@ export const cssColors = {
 
   backgroundCicle: '#00A5FF',
 
-  gradient:['#FFFFFF','#4c93bf','#2475a0','#006691',],
-  gradientColors: ['#FFFFFF', '#FFFFFF', '#FFFFFF','#FFFFFF','#6eb2de' ,'#006691'],
+  gradient: ['#FFFFFF', '#4c93bf', '#2475a0', '#006691',],
+  gradientColors: ['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#6eb2de', '#006691'],
 
-  
-  };
+
+};

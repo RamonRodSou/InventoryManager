@@ -12,7 +12,7 @@ const removeW = '../../../assets/Icone/MiniIcon/removeW.webp'
 const Galery = () => {
 
     const { imageUrls, setImageUrls } = useContext(ProductContext)
-    
+
     const handleDeleteImage = async (imageUrl) => {
         try {
             await deleteImage(imageUrl)
@@ -31,7 +31,6 @@ const Galery = () => {
                 console.error('Erro ao buscar imagens:', error)
             }
         }
-
         fetchImages()
     }, [])
 
@@ -44,8 +43,8 @@ const Galery = () => {
                             <Image style={styles.image} source={{ uri: imageUrl }} />
                         </TouchableOpacity>
                         <View style={styles.excluirImage}>
-                            <MiniIconImage handle={() => handleDeleteImage(imageUrl)}  source={require(removeW)}
-/>
+                            <MiniIconImage handle={() => handleDeleteImage(imageUrl)} source={require(removeW)}
+                            />
                         </View>
                     </View>
                 ))}

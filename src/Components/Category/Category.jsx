@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import {  Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { ProductContext } from '../../contexts/product'
 import { fireBaseDeleteCategory, fireBaseGetCategory } from '../../FireBaseDB/FireBaseDbCategory'
 import { cssColors } from '../../Variavel/Css'
@@ -10,9 +10,8 @@ const removeOrange = '../../../assets/Icone/MiniIcon/removeOrange.webp'
 
 const Category = () => {
 
-    const { categories, setCategories, setCategory, setSelectedCategory, setModalVisible, setConfirmDeleteVisible,
-        confirmDeleteVisible, setCategoryToDelete, editCategory, categoryToDelete } = useContext(ProductContext)
-
+    const { categories, setCategories, setCategory, setSelectedCategory, setModalVisible, confirmDeleteVisible, setConfirmDeleteVisible,
+        setCategoryToDelete, editCategory, categoryToDelete,  } = useContext(ProductContext)
 
     const chooseCategory = (category) => {
         setSelectedCategory(category)
@@ -32,7 +31,6 @@ const Category = () => {
         setCategoryToDelete(null)
         setConfirmDeleteVisible(false)
     }
-
 
     useEffect(() => {
         fireBaseGetCategory(setCategories)
@@ -90,12 +88,12 @@ const styles = StyleSheet.create({
         gap: 20,
         flexDirection: "row",
         width: '100%',
-        borderColor:cssColors.backgroundCicle,
-        backgroundColor:cssColors.backgroundProduct,
-        borderWidth:1,
-        borderRadius:10,
-        paddingVertical:2,
-        marginBottom:5,
+        borderColor: cssColors.backgroundCicle,
+        backgroundColor: cssColors.backgroundProduct,
+        borderWidth: 1,
+        borderRadius: 10,
+        paddingVertical: 2,
+        marginBottom: 5,
     },
     selectCategory: {
         width: '80%',

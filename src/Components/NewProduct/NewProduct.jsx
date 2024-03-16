@@ -22,9 +22,7 @@ const NewProduct = () => {
     const formattedText = formattedWords.join(' ')
 
     setName(formattedText)
-
   }
-
 
   const handleValueChange = (text) => {
     setValue(text)
