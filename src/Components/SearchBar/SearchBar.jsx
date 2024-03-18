@@ -19,7 +19,7 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
                     autoCapitalize="none"
                 />
             </View>
-            <TouchableOpacity style={styles.closeButton} onPress={() => setIsSearchVisible(false)}>
+            <TouchableOpacity style={styles.closeButton} onPress={() => setIsSearchVisible(true)}>
                 <Text style={styles.closeButtonText}>X</Text>
             </TouchableOpacity>
 
@@ -29,12 +29,10 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: '80%',
+        width: '100%',
         backgroundColor: cssColors.backgroundProduct,
-        borderColor: cssColors.blue,
         paddingHorizontal: 10,
-        borderWidth: 1,
-        borderRadius: 10,
+
     },
     searchBar: {
         paddingHorizontal: 5,
