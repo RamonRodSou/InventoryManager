@@ -42,7 +42,13 @@ export default function EditProduct({ productId, onClose }) {
   }
 
   const handleNameChange = (text) => {
-    setName(text)
+    const words = text.toLowerCase().split(' ');
+    const formattedWords = words.map(word => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    });
+    const formattedText = formattedWords.join(' ')
+
+    setName(formattedText)
   }
 
   const handleValueChange = (text) => {

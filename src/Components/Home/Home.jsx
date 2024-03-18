@@ -59,14 +59,14 @@ export default function Home() {
 
     return (
         <LinearGradient colors={cssColors.gradient} style={[styles.productSec, styles.transparentBackground]}>
-            <View>
-                <View>
-                    {isSearchVisible ? (
-                        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} onFocus={() => setIsSearchFocused(true)} onBlur={() => setIsSearchFocused(false)} />
-                    ) : (
-                        <>
-                        </>
-                    )}
+            <View  style={styles.homeContainer}>
+                <View style={styles.searchContainer}>
+                        {isSearchVisible ? (
+                            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} onFocus={() => setIsSearchFocused(true)} onBlur={() => setIsSearchFocused(false)} />
+                        ) : (
+                            <>
+                            </>
+                        )}
                 </View>
                 {isSearchFocused ? null : (
                     <ScrollView showsVerticalScrollIndicator={false} horizontal={false}>
@@ -123,6 +123,12 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         paddingVertical: 10,
+    },
+    homeContainer:{
+        
+    },
+    searchContainer:{
+        minWidth:'100%'
     },
     container: {
         flexDirection: 'column',

@@ -19,7 +19,7 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
                     autoCapitalize="none"
                 />
             </View>
-            <TouchableOpacity style={styles.closeButton} onPress={() => setIsSearchVisible(true)}>
+            <TouchableOpacity style={styles.closeButton} onPress={() => setIsSearchVisible(false)}>
                 <Text style={styles.closeButtonText}>X</Text>
             </TouchableOpacity>
 
