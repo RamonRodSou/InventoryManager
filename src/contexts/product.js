@@ -31,6 +31,7 @@ export function ProductProvider({ children }) {
     const [imageUrls, setImageUrls] = useState([])
     const [isSearchVisible, setIsSearchVisible] = useState(false)
 
+
     return (
         <ProductContext.Provider
             value={{
@@ -40,7 +41,7 @@ export function ProductProvider({ children }) {
                 categoryToDelete, setCategoryToDelete, editCategory, setEditCategory, product, setProduct, categoryD, setCategoryD,
                 editingProductId, setEditingProductId, productToDelete, setProductToDelete, searchTerm, setSearchTerm,
                 filteredProducts, setFilteredProducts, imageUrls, setImageUrls, confirmDeleteVisibleEdt, setConfirmDeleteVisibleEdt,
-                isSearchVisible, setIsSearchVisible
+                isSearchVisible, setIsSearchVisible,
             }}
         >
             {children}

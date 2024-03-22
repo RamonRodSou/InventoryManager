@@ -13,9 +13,8 @@ import { useFocusEffect } from "@react-navigation/native"
 export default function Home() {
 
     const { product, setProduct, categoryD, setCategoryD, editingProductId, setEditingProductId, setName, setImage,
-        setValue, setQtd, isSearchVisible, setIsSearchVisible } = useContext(ProductContext)
+        setValue, setQtd, isSearchVisible, setIsSearchVisible, searchTerm, setSearchTerm } = useContext(ProductContext)
     const [filteredProducts, setFilteredProducts] = useState(product)
-    const [searchTerm, setSearchTerm] = useState('')
     const [isSearchFocused, setIsSearchFocused] = useState(false)
 
     const handleMoreProduct = (id) => {
@@ -62,7 +61,7 @@ export default function Home() {
             <View  style={styles.homeContainer}>
                 <View style={styles.searchContainer}>
                         {isSearchVisible ? (
-                            <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} onFocus={() => setIsSearchFocused(true)} onBlur={() => setIsSearchFocused(false)} />
+                            <SearchBar searchTerm={searchTerm} searchSet={setSearchTerm} onFocus={() => setIsSearchFocused(true)} onBlur={() => setIsSearchFocused(false)} />
                         ) : (
                             <>
                             </>

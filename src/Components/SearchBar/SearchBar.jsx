@@ -3,9 +3,14 @@ import { View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-nativ
 import { cssColors } from '../../Variavel/Css'
 import { ProductContext } from '../../contexts/product'
 
-const SearchBar = ({ searchTerm, setSearchTerm }) => {
+const SearchBar = ({ searchTerm, searchSet }) => {
 
-    const { isSearchVisible, setIsSearchVisible } = useContext(ProductContext)
+    const { isSearchVisible, setIsSearchVisible, setSearchTerm } = useContext(ProductContext)
+    
+    const  handleClose = () => {
+        setIsSearchVisible(false)
+        setSearchTerm('')
+    }
 
     return (
         <View style={styles.container}>
@@ -15,11 +20,11 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
                     placeholder="Pesquisar produto..."
                     placeholderTextColor={cssColors.placeholder}
                     value={searchTerm}
-                    onChangeText={setSearchTerm}
+                    onChangeText={searchSet}
                     autoCapitalize="none"
                 />
             </View>
-            <TouchableOpacity style={styles.closeButton} onPress={() => setIsSearchVisible(false)}>
+            <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
                 <Text style={styles.closeButtonText}>X</Text>
             </TouchableOpacity>
 
